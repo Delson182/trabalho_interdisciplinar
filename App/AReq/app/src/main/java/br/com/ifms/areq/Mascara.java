@@ -6,12 +6,14 @@ import android.widget.EditText;
 
 public abstract class Mascara{
 
-    private static String desMascara(String s){
+    //metodo que tira a mascara do cpf
+    public static String desMascara(String s){
         return s.replaceAll("[.]","").replaceAll("[-]","")
                 .replaceAll("[/]","").replaceAll("[(]","")
                 .replaceAll("[)]","");
     }
 
+    //metodo que recebe o tipo de mascara, e aplica no edit informado
     public static TextWatcher insert(final String mask, final EditText editText){
         return new TextWatcher() {
             boolean atualiza;

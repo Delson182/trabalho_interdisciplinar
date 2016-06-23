@@ -43,12 +43,27 @@
         android:text="Digite o CPF"
         android:id="@+id/tvCPF" />
 
-    <EditText
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/edtCPF" />
+        android:weightSum="1">
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/edtCPF"
+            android:layout_weight="0.8" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/imgAutentica"
+            android:src="@drawable/interrogacao"
+            android:layout_weight="0.2" />
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
