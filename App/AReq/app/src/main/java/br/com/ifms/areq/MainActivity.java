@@ -1,9 +1,12 @@
 package br.com.ifms.areq;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -14,7 +17,9 @@ public class MainActivity extends AppCompatActivity {
     private EditText edtCPF;
     private EditText edtNomeMae;
     private ImageView imgAutentica;
+    private Button conectar;
     private boolean trocarVerificador = false;
+    private boolean cpfValido = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         imgAutentica = (ImageView) findViewById(R.id.imgAutentica);
         edtCPF = (EditText) findViewById(R.id.edtCPF);
+        conectar = (Button) findViewById(R.id.btnAutenticar);
 
         //variavel que faz a verificação da quantidade de caracteres para calculo do cpf
         TextWatcher verifica = new TextWatcher() {
@@ -41,13 +47,16 @@ public class MainActivity extends AppCompatActivity {
                 if (edtCPF.length() < 14 && trocarVerificador){
                     imgAutentica.setImageResource(R.drawable.interrogacao);
                     trocarVerificador = false;
+                    cpfValido = false;
                 }
                 if (edtCPF.length() >= 14){
                     if(autenticaCPF(Mascara.desMascara(edtCPF.getText().toString()))) {
                         imgAutentica.setImageResource(R.drawable.check_verde);
+                        cpfValido = true;
                     } else {
                         imgAutentica.setImageResource(R.drawable.check_vermelho);
                         Toast.makeText(getApplicationContext(), "CPF Inválido", Toast.LENGTH_SHORT).show();
+                        cpfValido = false;
                     }
                     trocarVerificador = true;
                 }
@@ -56,6 +65,18 @@ public class MainActivity extends AppCompatActivity {
 
         edtCPF.addTextChangedListener(Mascara.insert("###.###.###-##", edtCPF));
         edtCPF.addTextChangedListener(verifica);
+
+        conectar.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if (cpfValido){
+                    Intent it = new Intent(MainActivity.this, ListaRequerimento.class);
+                    startActivity(it);
+                } else {
+                    Toast.makeText(getApplicationContext(), "CPF Inválido", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     //metodo que verifica a autenticação do cpf
