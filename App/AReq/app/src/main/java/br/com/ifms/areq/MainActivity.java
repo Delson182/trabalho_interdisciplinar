@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().setTitle("Autenticação");
 
         imgAutentica = (ImageView) findViewById(R.id.imgAutentica);
         edtCPF = (EditText) findViewById(R.id.edtCPF);
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //metodo que verifica a autenticação do cpf
+    //metodo que verifica a autentticidade do cpf
     public boolean autenticaCPF(String cpf){
         int soma, result, numero, peso;
         char digito10, digito11;
