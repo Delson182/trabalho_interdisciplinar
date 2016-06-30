@@ -8,18 +8,26 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
-            android:screenOrientation="portrait">
+        <activity
+            android:name=".TelaSplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ListaRequerimento"
-            android:label="Lista de Requerimentos"/>
-        <activity android:name=".DetalhesRequerimento"
-            android:label="Detalhamento"></activity>
+        <activity
+            android:name=".ListaRequerimento"
+            android:label="Lista de Requerimentos" />
+        <activity
+            android:name=".DetalhesRequerimento"
+            android:label="Detalhamento" />
+        <activity
+            android:name=".MainActivity"
+            android:label="Autenticação"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

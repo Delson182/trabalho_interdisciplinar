@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().setTitle("Autenticação");
+        //getSupportActionBar().setTitle("Autenticação");
 
         imgAutentica = (ImageView) findViewById(R.id.imgAutentica);
         edtCPF = (EditText) findViewById(R.id.edtCPF);

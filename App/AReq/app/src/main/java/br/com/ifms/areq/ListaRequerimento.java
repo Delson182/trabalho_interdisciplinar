@@ -15,6 +15,7 @@ public class ListaRequerimento extends AppCompatActivity {
     private ListView listaRequerimento;
     private ArrayList<Requerimento> requerimentos = new ArrayList<Requerimento>();
     private ArrayAdapter<Requerimento> adaptador;
+    private Requerimento requerimento;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +26,7 @@ public class ListaRequerimento extends AppCompatActivity {
         adaptador = new ArrayAdapter<Requerimento>(ListaRequerimento.this, android.R.layout.simple_list_item_1, requerimentos);
         listaRequerimento.setAdapter(adaptador);
 
-        final Requerimento requerimento = new Requerimento("0012345", "29/jun/16","Convalidação","Alguma marmota","Em estudo");
+        requerimento = new Requerimento("0012345", "29/jun/16","Convalidação","Alguma marmota","Em estudo");
 
         requerimentos.add(requerimento);
         adaptador.notifyDataSetChanged();
