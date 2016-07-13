@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>ReqIFMS</title>
+
+	<h:outputStylesheet library="sh" name="css/shCore.css" />
+	<h:outputStylesheet library="sh" name="css/shCoreEclipse.css" />
+	<!-- These CSS don't do anything. The just demonstrate the position attribute. -->
+	<h:outputStylesheet name="last.css" position="last" />
+	<h:outputStylesheet name="first.css" position="first" />
+	<h:outputStylesheet name="middle.css" position="middle" />
+	<h:outputStylesheet library="customthemes"
+		name="freelancer/bootstrap.min.css" />
+	<h:outputStylesheet library="customthemes"
+		name="#{theme.customTheme}/bootstrap.min.css"
+		rendered="#{theme.customTheme ne ''}" />
+	<h:outputStylesheet library="customthemes"
+		name="#{theme.customTheme}/#{theme.customTheme}.css"
+		rendered="#{theme.customTheme ne ''}" />
+	<style>
+.tooltip-inner {
+	max-width: 350px;
+	/* If max-width does not work, try using width instead */
+	width: 350px;
+}
+</style>
+<script type="text/javascript">
+      $(window).load(function(){ $('.modalPseudoClass').modal('show'); });
+</script>
+</h:head>
+<h:body style="padding-top: 20px;padding-bottom: 20px;"
+	addLabels="false" addMessages="false">
+	<b:container>
+		<b:well>
+		</b:well>
+	</b:container>
+	<b:container>
+		<b:jumbotron>
+			<h:form id="pesquisa">
+				<b:container layout="fluid">
+					<b:panel title="pesquisar" look="primary">
+						<b:row>
+							<b:column medium-screen="1">
+								<h:outputText value="pesquisar" for="pesquisar" />
+							</b:column>
+							<b:column medium-screen="10"
+								tooltip="Digite a intenção de pesquisa">
+								<b:inputText placeholder="Insira o texto da pesquisa"
+									id="pesquisa" value="" ajax="true" autocomplete="false">
+								</b:inputText>
+							</b:column>
+
+							<b:column medium-screen="1"
+								tooltip="Precione o botão para pesquisar">
+								<b:commandButton onclick="ajax:loginBean.login()" icon="search"
+									update="@form" look="primary" />
+							</b:column>
+						</b:row>
+						<b:row>
+							<b:column medium-screen="4"
+								tooltip="Selecione um filtro para refinar a pesquisa por requerimentos Pendentes">
+								<b:selectBooleanCheckbox value="" caption="Pendente"
+									id="tipoPes1" />
+							</b:column>
+							<b:column medium-screen="4"
+								tooltip="Selecione um filtro para refinar a pesquisa por requerimentos Deferidos">
+								<b:selectBooleanCheckbox value="" caption="Deferido"
+									id="tipoPes2" />
+							</b:column>
+							<b:column medium-screen="3"
+								tooltip="Selecione um filtro para refinar a pesquisa por requerimentos Indeferidos">
+								<b:selectBooleanCheckbox value="" caption="Indeferido"
+									id="tipoPes3" />
+							</b:column>
+							<b:column medium-screen="1"
+								tooltip="Selecione para criar um novo Requerimento">
+								<b:commandButton value="" onclick="ajax:loginBean.login()"
+									icon="file" update="@form" look="primary" />
+							</b:column>
+						</b:row>
+						<b:row>  <b:button value="Click e veja o modal" look="success" onclick="$('.modalPseudoClass').modal();return false;" size="lg"/></b:row>
+						 <b:modal id="amodal" title="Adelson Peroba" styleClass="modalPseudoClass">
+                        <p>Podemos inserir o que nos quizermos aqui</p>
+                        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+                        <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+                        <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+                        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+                        <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+                        <f:facet name="footer">
+                            <b:button value="close" dismiss="modal" onclick="return false;"/>
+                            <b:button value="Ok" look="primary" dismiss="modal" onclick="return false;"/>
+                        </f:facet>
+                    </b:modal>
+					</b:panel>
+				</b:container>
+			</h:form>
+			<h:form>
+				<h:form id="visualizar">
+					<b:container layout="fluid">
+						<b:panel title="Lista de Protocolos" look="primary">
+							
+						</b:panel>
+					</b:container>
+				</h:form>
+			</h:form>
+		</b:jumbotron>
+	</b:container>
+</h:body>
+</html>
