@@ -1,2 +1,2 @@
-# trabalho_interdisplinar
-Repositório do trabalho interdisplinar dos estudantes de Tecnologia em Sistemas Para Internet, turma 2014-1. 
+# trabalho_interdisciplinar
+Repositório do trabalho interdisciplinar dos estudantes do curso  superior de Tecnologia em Sistemas Para Internet do IFMS, câmpus Aquidauana, turma 2014-1. 
