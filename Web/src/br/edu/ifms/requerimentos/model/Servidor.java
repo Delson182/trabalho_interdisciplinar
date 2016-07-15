@@ -12,6 +12,11 @@ public class Servidor {
 	private String siape;
 	private String nome;
 	
+	public Servidor(Integer id, String siape, String nome) {
+		this.id = id;
+		this.siape = siape;
+		this.nome = nome;
+	}
 	public String getSiape() {
 		return siape;
 	}

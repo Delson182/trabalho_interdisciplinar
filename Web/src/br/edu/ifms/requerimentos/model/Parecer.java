@@ -13,6 +13,8 @@ public class Parecer{
 	@GeneratedValue
 	@Column(name="parecer_id")
     private Integer id;
+	private String observacaoParecer;
+	private String deliberacaoParecer;
 	@Column(name="datahora_parecer")
     private Date data ;
 	@OneToOne
@@ -22,6 +24,9 @@ public class Parecer{
 	@ManyToOne
     private Requerimento requerimento ;
 	
+	public Parecer() {
+		
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -51,6 +56,18 @@ public class Parecer{
 	}
 	public void setRequerimento(Requerimento requerimento) {
 		this.requerimento = requerimento;
+	}
+	public String getObservacaoParecer() {
+		return observacaoParecer;
+	}
+	public void setObservacaoParecer(String observacaoParecer) {
+		this.observacaoParecer = observacaoParecer;
+	}
+	public String getDeliberacaoParecer() {
+		return deliberacaoParecer;
+	}
+	public void setDeliberacaoParecer(String deliberacaoParecer) {
+		this.deliberacaoParecer = deliberacaoParecer;
 	}
 
 }

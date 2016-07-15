@@ -45,7 +45,7 @@
 								</b:column>
 								<b:column medium-screen="4">
 									<b:inputText placeholder="Insira o nº do protocolo"
-										id="protocolo" value="#{requerimentoBean.protocolo}" 
+										id="protocolo" value="#{requerimentoBean.requerimento.protocolo}" 
 										ajax="false" autocomplete="false"
 										tooltip="Insira o nº do protocolo">
 									</b:inputText>
@@ -55,7 +55,7 @@
 									<h:outputText value="Data de Criação" />
 								</b:column>
 								<b:column medium-screen="4">
-									<b:dateTimePicker value="#{requerimentoBean.dataCriacao}"
+									<b:dateTimePicker value="#{requerimentoBean.requerimento.data}"
 										tooltip="Insira a data  de criação do Protocolo"
 										id="justNowId" mode="popup" side-by-side="true"
 										show-date="true" show-time="true" />
@@ -75,7 +75,7 @@
 								<b:column medium-screen="8"
 									tooltip="Insira o Nome do Requerente">
 									<b:inputText placeholder="Digite nome do requerente"
-										id="nomeRequerente" value="#{requerimentoBean.nomeRequerente}" ajax="false" >
+										id="nomeRequerente" value="#{requerimentoBean.requerimento.requerente.nomerequerente}" ajax="false" >
 										<f:facet name="prepend">
 											<b:iconAwesome name="user" />
 										</f:facet>
@@ -92,7 +92,7 @@
 									<h:outputText value="RG" />
 								</b:column>
 								<b:column medium-screen="3">
-									<b:inputText placeholder="Digite o RG" id="rg" value="#{requerimentoBean.rg}"
+									<b:inputText placeholder="Digite o RG" id="rg" value="#{requerimentoBean.requerimento.requerente.rg}"
 										ajax="false" autocomplete="false" >
 										<f:facet name="prepend">
 											<b:iconAwesome name="play" />
@@ -103,7 +103,7 @@
 									<h:outputText value="CPF" />
 								</b:column>
 								<b:column medium-screen="3">
-									<b:inputText placeholder="Digite o CPF" id="cpf" value="#{requerimentoBean.cpf}"
+									<b:inputText placeholder="Digite o CPF" id="cpf" value="#{requerimentoBean.requerimento.requerente.cpf}"
 										ajax="false" autocomplete="false" >
 										<f:facet name="prepend">
 											<b:iconAwesome name="play" />
@@ -114,7 +114,7 @@
 									<h:outputText value="RA" />
 								</b:column>
 								<b:column medium-screen="3">
-									<b:inputText placeholder="Digite o RA" id="ra" value="#{requerimentoBean.ra}"
+									<b:inputText placeholder="Digite o RA" id="ra" value="#{requerimentoBean.requerimento.estudante}"
 										ajax="false" autocomplete="false" >
 										<f:facet name="prepend">
 											<b:iconAwesome name="play" />
@@ -128,7 +128,7 @@
 								</b:column>
 								<b:column medium-screen="4">
 									<b:inputText placeholder="Digite telefone fixo" id="telFixo"
-										value="#{requerimentoBean.telefone}" ajax="false" autocomplete="false" >
+										value="#{requerimentoBean.requerimento.requerente.fonefixo}" ajax="false" autocomplete="false" >
 										<f:facet name="prepend">
 											<b:iconAwesome name="phone" />
 										</f:facet>
@@ -139,7 +139,7 @@
 								</b:column>
 								<b:column medium-screen="4">
 									<b:inputText placeholder="Digite o Tel. Celular" id="telCelular" 
-										value="#{requerimentoBean.celular}" ajax="false" autocomplete="false">
+										value="#{requerimentoBean.requerimento.requerente.fonecel}" ajax="false" autocomplete="false">
 										<f:facet name="prepend">
 											<b:iconAwesome name="mobile" />
 										</f:facet>
@@ -151,8 +151,8 @@
 									<h:outputText value="E-Mail:" />
 								</b:column>
 								<b:column medium-screen="11">
-									<b:inputText placeholder="Digite o E-mail do requerente" 
-										id="email" value="#{requerimentoBean.email}" ajax="false" autocomplete="false">
+									<b:inputText placeholder="Digite o E-mail do requerente" required="true" requiredMessage="O e-mail é obrigatório!" 
+										id="email" value="#{requerimentoBean.requerimento.requerente.email}" ajax="false" autocomplete="false">
 										<f:facet name="prepend">
 											<b:iconAwesome name="envelope" />
 										</f:facet>
@@ -165,7 +165,7 @@
 								</b:column>
 								<b:column medium-screen="10">
 									<b:inputText placeholder="Digite o Nome do Estudante" 
-										id="nomeEstudante" value="#{requerimentoBean.nomeEstudante}" ajax="false" autocomplete="false">
+										id="nomeEstudante" value="#{requerimentoBean.requerimento.requerente.estudane.nome}" ajax="false" autocomplete="false">
 										<f:facet name="prepend">
 											<b:iconAwesome name="user" />
 										</f:facet>
@@ -177,7 +177,7 @@
 									<h:outputText value="Curso" />
 								</b:column>
 								<b:column medium-screen="11">
-									<b:selectOneMenu id="curso" value="#{requerimentoBean.curso}" ajax="false" >
+									<b:selectOneMenu id="curso" value="#{requerimentoBean.requerimento.estudante.matricula.curso.nome}" ajax="false" >
 										<f:selectItem itemLabel="Escolha o curso do Estudante"
 											itemValue="" />
 										<f:selectItem
@@ -199,7 +199,7 @@
 									<h:outputText value="Período" />
 								</b:column>
 								<b:column medium-screen="3">
-									<b:selectOneMenu id="periodo" value="#{requerimentoBean.periodo}" ajax="false" >
+									<b:selectOneMenu id="periodo" value="#{requerimentoBean.requerimento.estudante.matricula.periodo}" ajax="false" >
 										<f:selectItem itemLabel="Selecione" itemValue="" />
 										<f:selectItem itemLabel="1º" itemValue="1" />
 										<f:selectItem itemLabel="2º" itemValue="2" />
@@ -220,7 +220,7 @@
 									<h:outputText value="Turno" />
 								</b:column>
 								<b:column medium-screen="3">
-									<b:selectOneMenu id="turno" value="#{requerimentoBean.turno}" ajax="false" >
+									<b:selectOneMenu id="turno" value="#{requerimentoBean.requerimento.estudante.matricula.turno}" ajax="false" >
 										<f:selectItem itemLabel="Selecione" itemValue="" />
 										<f:selectItem itemLabel="Matutino" itemValue="Matutino" />
 										<f:selectItem itemLabel="Vespertino" itemValue="Vespertino" />
@@ -236,7 +236,7 @@
 								</b:column>
 								<b:column medium-screen="3">
 									<b:inputText placeholder="Selecione a Turma" id="turma"
-										value="#{requerimentoBean.turma}" ajax="false" autocomplete="false" >
+										value="#{requerimentoBean.requerimento.estudante.matricula.turma}" ajax="false" autocomplete="false" >
 										<f:facet name="prepend">
 											<b:iconAwesome name="users" />
 										</f:facet>
@@ -261,70 +261,70 @@
 								<b:row>
 									<p:growl id="msg" />
 									<b:column medium-screen="6">
-										<b:selectBooleanCheckbox value="#{requerimentoBean.cancelMa}"
+										<b:selectBooleanCheckbox value="#{requerimentoBean.tiposRequerimento.cancelamentoMatricula}"
 											caption="Cancelamento de matricula" id="tipoReq1" update="@(.message)">
 											<p:ajax event="change" global="false" />
 										</b:selectBooleanCheckbox>
-										<b:selectBooleanCheckbox value="#{requerimentoBean.cancelUni}"
+										<b:selectBooleanCheckbox value="#{requerimentoBean.tiposRequerimento.cancelamentoUnidadeCurricular}"
 											caption="Cancelamento de unidade curricular" id="tipoReq2" update="@(.message)">
 											<p:ajax event="change" global="false" />
 										</b:selectBooleanCheckbox>
-										<b:selectBooleanCheckbox value="#{requerimentoBean.certiQuali}"
+										<b:selectBooleanCheckbox value="#{requerimentoBean.tiposRequerimento.certificadoQualificacaoProfisional}"
 											caption="Certificado de qualificação profissional" id="tipoReq3" update="@(.message)">
 											<p:ajax event="change" global="false" />
 										</b:selectBooleanCheckbox>
-										<b:selectBooleanCheckbox value="#{requerimentoBean.conva}" 
+										<b:selectBooleanCheckbox value="#{requerimentoBean.tiposRequerimento.convalidacao}" 
 											caption="Convalidação"	id="tipoReq4" update="@(.message)">
 											<p:ajax event="change" global="false" />
 										</b:selectBooleanCheckbox>
-										<b:selectBooleanCheckbox value="#{requerimentoBean.declara}" caption="Declaração"
+										<b:selectBooleanCheckbox value="#{requerimentoBean.tiposRequerimento.declaracao}" caption="Declaração"
 											id="tipoReq5" update="@(.message)">
 											<p:ajax event="change" global="false" />
 										</b:selectBooleanCheckbox>
-										<b:selectBooleanCheckbox value="#{requerimentoBean.desis}"
+										<b:selectBooleanCheckbox value="#{requerimentoBean.tiposRequerimento.desistenciaDeCurso}"
 											caption="Desistencia de curso" id="tipoReq6" update="@(.message)">
 											<p:ajax event="change" global="false" />
 										</b:selectBooleanCheckbox>
-										<b:selectBooleanCheckbox value="#{requerimentoBean.enrProf}"
+										<b:selectBooleanCheckbox value="#{requerimentoBean.tiposRequerimento.enriquecimentoProfissional}"
 											caption="Enriquecimento profissional" id="tipoReq7" update="@(.message)">
 											<p:ajax event="change" global="false" />
 										</b:selectBooleanCheckbox>
-										<b:selectBooleanCheckbox value="#{requerimentoBean.exSuf}"
+										<b:selectBooleanCheckbox value="#{requerimentoBean.tiposRequerimento.exameSuficiencia}"
 											caption="Exame de suficiência" id="tipoReq8" update="@(.message)">
 											<p:ajax event="change" global="false" />
 										</b:selectBooleanCheckbox>
 										
 									</b:column>
 									<b:column medium-screen="6">
-										<b:selectBooleanCheckbox value="#{requerimentoBean.hist}" 
+										<b:selectBooleanCheckbox value="#{requerimentoBean.tiposRequerimento.historicoEscolar}" 
 											caption="Histórico escolar" id="tipoReq9" update="@(.message)">
 											<p:ajax event="change" global="false" />
 										</b:selectBooleanCheckbox>
-										<b:selectBooleanCheckbox value="#{requerimentoBean.matrUni}"
+										<b:selectBooleanCheckbox value="#{requerimentoBean.tiposRequerimento.matriculaEmUnidadeCurricular}"
 											caption="Matrícula em unidade curricular" id="tipoReq10" update="@(.message)">
 											<p:ajax event="change" global="false" />
 										</b:selectBooleanCheckbox>
-										<b:selectBooleanCheckbox value="#{requerimentoBean.mudaTurm}" 
+										<b:selectBooleanCheckbox value="#{requerimentoBean.tiposRequerimento.mudancaDeTurma}" 
 											caption="Mudança de turma"	id="tipoReq11" update="@(.message)">
 											<p:ajax event="change" global="false" />
 										</b:selectBooleanCheckbox>
-										<b:selectBooleanCheckbox value="#{requerimentoBean.mudaTurn}" 
+										<b:selectBooleanCheckbox value="#{requerimentoBean.tiposRequerimento.mudancaDeTurno}" 
 											caption="Mudança de turno"	id="tipoReq12" update="@(.message)">
 											<p:ajax event="change" global="false" />
 										</b:selectBooleanCheckbox>
-										<b:selectBooleanCheckbox value="#{requerimentoBean.tranc}"
+										<b:selectBooleanCheckbox value="#{requerimentoBean.tiposRequerimento.trancamento}"
 											 caption="Trancamento" id="tipoReq13" update="@(.message)">
 											<p:ajax event="change" global="false" />
 										</b:selectBooleanCheckbox>
-										<b:selectBooleanCheckbox value="#{requerimentoBean.trasf}" 
+										<b:selectBooleanCheckbox value="#{requerimentoBean.tiposRequerimento.trasnferencia}" 
 											caption="Transferência"	id="tipoReq14" update="@(.message)">
 											<p:ajax event="change" global="false" />
 										</b:selectBooleanCheckbox>
-										<b:selectBooleanCheckbox value="#{requerimentoBean.segunCham}" 
+										<b:selectBooleanCheckbox value="#{requerimentoBean.tiposRequerimento.segundaChamada}" 
 											caption="Segunda Chamada" id="tipoReq15" update="@(.message)">
 											<p:ajax event="change" global="false" />
 										</b:selectBooleanCheckbox>
-										<b:selectBooleanCheckbox value="#{requerimentoBean.outros}" 
+										<b:selectBooleanCheckbox value="#{requerimentoBean.tiposRequerimento.outros}" 
 											caption="Outros" id="tipoReq16" update="@(.message)">
 											<p:ajax event="change" global="false" />
 										</b:selectBooleanCheckbox>
@@ -335,7 +335,7 @@
 								<b:row>
 									<b:column medium-screen="12">
 										<h:outputText value="Detalhamento do Pedido" />
-										<b:inputTextarea id="obsRequerimento" value="#{requerimentoBean.detalhamento}" >
+										<b:inputTextarea id="obsRequerimento" value="#{requerimentoBean.requerimento.detalhamentoPedido}" >
 										</b:inputTextarea>
 									</b:column>
 
@@ -372,7 +372,7 @@
 								</b:row>
 								<b:row>
 									<b:column medium-screen="12">
-										<b:inputTextarea id="obsparecer" value="#{requerimentoBean.parecer}" ajax="false" > 
+										<b:inputTextarea id="obsparecer" value="#{requerimentoBean.parecer.observacaoParecer}" ajax="false" > 
 										</b:inputTextarea>
 									</b:column>
 
@@ -393,7 +393,7 @@
 										<h:outputText value="Deliberação do parecer: " />
 									</b:column>
 									<b:column medium-screen="4">
-										<b:selectOneMenu id="despachoParecer" value="#{requerimentoBean.deliberacaoParecer}" ajax="false"
+										<b:selectOneMenu id="despachoParecer" value="#{requerimentoBean.parecer.deliberacaoParecer}" ajax="false"
 											tooltip="Seu parecer sobre o requerimento é:" update="@(.messages)">
 
 											<f:selectItem itemLabel="Selecione" itemValue="" />
@@ -412,7 +412,7 @@
 									</b:column>
 									<b:column medium-screen="3">
 										<b:selectOneMenu id="encaminhar"
-											value="#{requerimentoBean.setorDestino}" ajax="false"
+											value="#{requerimentoBean.parecer.setor}" ajax="false"
 											tooltip="Setor a ser encaminhado:" update="@().messages)">
 
 											<f:selectItem itemLabel="Selecione" itemValue="" />

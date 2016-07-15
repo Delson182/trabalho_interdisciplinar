@@ -1,12 +1,15 @@
 package br.edu.ifms.requerimentos.bean;
 
 import java.io.Serializable;
-import java.util.Date;
-
-import javax.faces.application.FacesMessage;
+import java.util.ArrayList;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
+
+import br.edu.ifms.requerimento.business.RequerimentoBO;
+import br.edu.ifms.requerimentos.model.DescricaoTipoRequerimento;
+import br.edu.ifms.requerimentos.model.Parecer;
+import br.edu.ifms.requerimentos.model.Requerimento;
 
 @ManagedBean
 @ViewScoped
@@ -14,255 +17,105 @@ public class RequerimentoBean implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private String protocolo, nomeRequerente, rg, cpf, ra, telefone, celular, email, nomeEstudante, curso,
-		periodo, turno,turma,tipoRequerimento, detalhamento,  parecer, deliberacaoParecer, setorDestino;
-	private Date dataCriacao;
-	private boolean cancelMa, cancelUni, hist, certiQuali, conva, declara, desis, enrProf, exSuf, matrUni,
-		mudaTurm, mudaTurn, tranc, trasf, segunCham, outros, estudanteErequerente;
-	
+	private Requerimento requerimento = new Requerimento();
+	private Parecer parecer = new Parecer();
+	private TiposRequerimento tiposRequerimento = new TiposRequerimento();
+	private boolean estudanteErequerente;
 	
 	
 	public String salvar(){
-		validar();
-		System.out.println(dataCriacao);
-		System.out.println(tipoRequerimento);
-		System.out.println(curso);
-		System.out.println(deliberacaoParecer);
-		
+		RequerimentoBO reqBO= new RequerimentoBO();
+		List<DescricaoTipoRequerimento> listaTiposRequerimentos = criaListaTiposRequerimento();
+		reqBO.salvaRequerimento(requerimento, listaTiposRequerimentos);
 		return"";
 	}
 	
-	public void validar(){
-		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "campo inválidos", "");
-		if(protocolo == null || protocolo.isEmpty()){
-			FacesContext.getCurrentInstance().addMessage("formularioTopo:protocolo", msg);
+	public List<DescricaoTipoRequerimento> criaListaTiposRequerimento(){
+		List<DescricaoTipoRequerimento> descr = new ArrayList<DescricaoTipoRequerimento>() ;
+		if(tiposRequerimento.isCancelamentoMatricula()){
+			descr.add(DescricaoTipoRequerimento.CANCELAMENTO_MATRICULA);
 		}
-		
+		if(tiposRequerimento.isCancelamentoUnidadeCurricular()){
+			descr.add(DescricaoTipoRequerimento.CANCELAMENTO_UNIDADE_CURRICULAR);
+		}
+		if(tiposRequerimento.isCertificadoQualificacaoProfisional()){
+			descr.add(DescricaoTipoRequerimento.CERTIFICADO_DE_QUALIFICACAO_PROFISSIONAL);
+		}
+		if(tiposRequerimento.isConvalidacao()){
+			descr.add(DescricaoTipoRequerimento.CONVALIDACAO);
+		}
+		if(tiposRequerimento.isDeclaracao()){
+			descr.add(DescricaoTipoRequerimento.DECLARACAO);
+		}
+		if(tiposRequerimento.isDesistenciaDeCurso()){
+			descr.add(DescricaoTipoRequerimento.DESISTENCIA_DE_CURSO);
+		}
+		if(tiposRequerimento.isEnriquecimentoProfissional()){
+			descr.add(DescricaoTipoRequerimento.ENREQUECIMENTO_PROFISSIONAL);
+		}
+		if(tiposRequerimento.isExameSuficiencia()){
+			descr.add(DescricaoTipoRequerimento.EXAME_DE_SUFICIENCIA);
+		}
+		if(tiposRequerimento.isHistoricoEscolar()){
+			descr.add(DescricaoTipoRequerimento.HISTORICO_ESCOLAR);
+		}
+		if(tiposRequerimento.isMatriculaEmUnidadeCurricular()){
+			descr.add(DescricaoTipoRequerimento.MATRICULA_EM_UNIDADE_CURRICULAR);
+		}
+		if(tiposRequerimento.isMudancaDeTurma()){
+			descr.add(DescricaoTipoRequerimento.MUDANCA_DE_TURMA);
+		}
+		if(tiposRequerimento.isMudancaDeTurno()){
+			descr.add(DescricaoTipoRequerimento.MUDANCA_DE_TURNO);
+		}
+		if(tiposRequerimento.isTrancamento()){
+			descr.add(DescricaoTipoRequerimento.TRANCAMENTO);
+		}
+		if(tiposRequerimento.isSegundaChamada()){
+			descr.add(DescricaoTipoRequerimento.SEGUNDA_CHAMADA);
+		}
+		if(tiposRequerimento.isTrasnferencia()){
+			descr.add(DescricaoTipoRequerimento.TRANSFERENCIA);
+		}
+		if(tiposRequerimento.isOutros()){
+			descr.add(DescricaoTipoRequerimento.OUTROS);
+		}
+		return descr;
 	}
-	
-	
-	public String getProtocolo() {
-		return protocolo;
+	public TiposRequerimento getTiposRequerimento() {
+		return tiposRequerimento;
 	}
-	public void setProtocolo(String protocolo) {
-		this.protocolo = protocolo;
+
+	public void setTiposRequerimento(TiposRequerimento tiposRequerimento) {
+		this.tiposRequerimento = tiposRequerimento;
 	}
-	public String getNomeRequerente() {
-		return nomeRequerente;
-	}
-	public void setNomeRequerente(String nomeRequerente) {
-		this.nomeRequerente = nomeRequerente;
-	}
-	public String getRg() {
-		return rg;
-	}
-	public void setRg(String rg) {
-		this.rg = rg;
-	}
-	public String getCpf() {
-		return cpf;
-	}
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-	public String getRa() {
-		return ra;
-	}
-	public void setRa(String ra) {
-		this.ra = ra;
-	}
-	public String getTelefone() {
-		return telefone;
-	}
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
-	}
-	public String getCelular() {
-		return celular;
-	}
-	public void setCelular(String celular) {
-		this.celular = celular;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public String getNomeEstudante() {
-		return nomeEstudante;
-	}
-	public void setNomeEstudante(String nomeEstudante) {
-		this.nomeEstudante = nomeEstudante;
-	}
-	public String getCurso() {
-		return curso;
-	}
-	public void setCurso(String curso) {
-		this.curso = curso;
-	}
-	public String getPeriodo() {
-		return periodo;
-	}
-	public void setPeriodo(String periodo) {
-		this.periodo = periodo;
-	}
-	public String getTurno() {
-		return turno;
-	}
-	public void setTurno(String turno) {
-		this.turno = turno;
-	}
-	public String getTurma() {
-		return turma;
-	}
-	public void setTurma(String turma) {
-		this.turma = turma;
-	}
-	public String getTipoRequerimento() {
-		return tipoRequerimento;
-	}
-	public void setTipoRequerimento(String tipoRequerimento) {
-		this.tipoRequerimento = tipoRequerimento;
-	}
+
 	public boolean isEstudanteErequerente() {
 		return estudanteErequerente;
 	}
+
 	public void setEstudanteErequerente(boolean estudanteErequerente) {
 		this.estudanteErequerente = estudanteErequerente;
 	}
 
-	public boolean isCancelMa() {
-		return cancelMa;
+	public Requerimento getRequerimento() {
+		return requerimento;
 	}
-	public void setCancelMa(boolean cancelMa) {
-		this.cancelMa = cancelMa;
+
+	public void setRequerimento(Requerimento requerimento) {
+		this.requerimento = requerimento;
 	}
-	public boolean isCancelUni() {
-		return cancelUni;
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
-	public void setCancelUni(boolean cancelUni) {
-		this.cancelUni = cancelUni;
-	}
-	public boolean isHist() {
-		return hist;
-	}
-	public void setHist(boolean hist) {
-		this.hist = hist;
-	}
-	public boolean isCertiQuali() {
-		return certiQuali;
-	}
-	public void setCertiQuali(boolean certiQuali) {
-		this.certiQuali = certiQuali;
-	}
-	public boolean isConva() {
-		return conva;
-	}
-	public void setConva(boolean conva) {
-		this.conva = conva;
-	}
-	public boolean isDeclara() {
-		return declara;
-	}
-	public void setDeclara(boolean declara) {
-		this.declara = declara;
-	}
-	public boolean isDesis() {
-		return desis;
-	}
-	public void setDesis(boolean desis) {
-		this.desis = desis;
-	}
-	public boolean isEnrProf() {
-		return enrProf;
-	}
-	public void setEnrProf(boolean enrProf) {
-		this.enrProf = enrProf;
-	}
-	public boolean isExSuf() {
-		return exSuf;
-	}
-	public void setExSuf(boolean exSuf) {
-		this.exSuf = exSuf;
-	}
-	public boolean isMatrUni() {
-		return matrUni;
-	}
-	public void setMatrUni(boolean matrUni) {
-		this.matrUni = matrUni;
-	}
-	public boolean isMudaTurm() {
-		return mudaTurm;
-	}
-	public void setMudaTurm(boolean mudaTurm) {
-		this.mudaTurm = mudaTurm;
-	}
-	public boolean isMudaTurn() {
-		return mudaTurn;
-	}
-	public void setMudaTurn(boolean mudaTurn) {
-		this.mudaTurn = mudaTurn;
-	}
-	public boolean isTranc() {
-		return tranc;
-	}
-	public void setTranc(boolean tranc) {
-		this.tranc = tranc;
-	}
-	public boolean isTrasf() {
-		return trasf;
-	}
-	public void setTrasf(boolean trasf) {
-		this.trasf = trasf;
-	}
-	public boolean isSegunCham() {
-		return segunCham;
-	}
-	public void setSegunCham(boolean segunCham) {
-		this.segunCham = segunCham;
-	}
-	public boolean isOutros() {
-		return outros;
-	}
-	public void setOutros(boolean outros) {
-		this.outros = outros;
-	}
-	public String getDetalhamento() {
-		return detalhamento;
-	}
-	public void setDetalhamento(String detalhamento) {
-		this.detalhamento = detalhamento;
-	}
-	public String getParecer() {
+
+	public Parecer getParecer() {
 		return parecer;
 	}
-	public void setParecer(String parecer) {
+
+	public void setParecer(Parecer parecer) {
 		this.parecer = parecer;
-	}
-	public Date getDataCriacao() {
-		return dataCriacao;
-	}
-
-
-	public void setDataCriacao(Date dataCriacao) {
-		this.dataCriacao = dataCriacao;
-	}
-
-	public String getDeliberacaoParecer() {
-		return deliberacaoParecer;
-	}
-
-	public void setDeliberacaoParecer(String deliberacaoParecer) {
-		this.deliberacaoParecer = deliberacaoParecer;
-	}
-
-	public String getSetorDestino() {
-		return setorDestino;
-	}
-
-	public void setSetorDestino(String setorDestino) {
-		this.setorDestino = setorDestino;
 	}  
 	
 }

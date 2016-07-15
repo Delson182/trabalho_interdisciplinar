@@ -3,6 +3,8 @@ package br.edu.ifms.requerimentos.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Estudante{
@@ -19,6 +21,9 @@ public class Estudante{
 	private String celular;
 	private String cpf;
 	private String dispositivo;
+	@JoinColumn(name="matricula_fk")
+	@OneToMany(targetEntity = Matricula.class)
+	private Matricula matricula;
 	
 	public Integer getId() {
 		return id;
@@ -73,6 +78,12 @@ public class Estudante{
 	}
 	public void setDispositivo(String dispositivo) {
 		this.dispositivo = dispositivo;
+	}
+	public Matricula getMatricula() {
+		return matricula;
+	}
+	public void setMatricula(Matricula matricula) {
+		this.matricula = matricula;
 	}
 
 }

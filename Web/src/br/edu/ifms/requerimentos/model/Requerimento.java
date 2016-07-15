@@ -15,6 +15,7 @@ public class Requerimento {
 	@Column(name = "requerimento_id")
 	@GeneratedValue
 	private Integer id;
+	private String protocolo;
 	@Column(name = "data_criacao")
 	private Date data;
 	@Column(name = "tipo_requerimento")
@@ -37,6 +38,7 @@ public class Requerimento {
 	@JoinColumn(name="estudante_fk")
 	@ManyToOne(targetEntity = Estudante.class)
 	private Estudante estudante;
+	
 	
 	public Integer getId() {
 		return id;
@@ -98,6 +100,11 @@ public class Requerimento {
 	public void setEstudante(Estudante estudante) {
 		this.estudante = estudante;
 	}
+	public String getProtocolo() {
+		return protocolo;
+	}
+	public void setProtocolo(String protocolo) {
+		this.protocolo = protocolo;
+	}
 	
-
 }

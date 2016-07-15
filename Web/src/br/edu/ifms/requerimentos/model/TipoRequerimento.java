@@ -8,8 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import br.edu.ifms.requerimento.bean.model.DescricaoTipoRequerimento;
-
 @Entity(name="tipo_requerimento")
 public class TipoRequerimento {
 	@Id
