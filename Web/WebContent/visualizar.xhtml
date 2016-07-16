@@ -30,6 +30,9 @@
 	width: 350px;
 }
 </style>
+<script type="text/javascript">
+      $(window).load(function(){ $('.modalPseudoClass').modal('show'); });
+</script>
 </h:head>
 <h:body style="padding-top: 20px;padding-bottom: 20px;"
 	addLabels="false" addMessages="false">
@@ -43,12 +46,15 @@
 				<b:container layout="fluid">
 					<b:panel title="pesquisar" look="primary">
 						<b:row>
+						
+       
 							<b:column medium-screen="1">
 								<h:outputText value="pesquisar" for="pesquisar" />
+								 
 							</b:column>
 							<b:column medium-screen="10"
 								tooltip="Digite a intenção de pesquisa">
-								<b:inputText placeholder="Insira o texto da pesquisa"
+							<b:inputText placeholder="Insira o texto da pesquisa"
 									id="pesquisa" value="" ajax="true" autocomplete="false">
 								</b:inputText>
 							</b:column>
@@ -81,6 +87,19 @@
 									icon="file" update="@form" look="primary" />
 							</b:column>
 						</b:row>
+						<b:row>  <b:button value="Click e veja o modal" look="success" onclick="$('.modalPseudoClass').modal();return false;" size="lg"/></b:row>
+						 <b:modal id="amodal" title="Adelson Peroba" styleClass="modalPseudoClass">
+                        <p>Podemos inserir o que nos quizermos aqui</p>
+                        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+                        <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+                        <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+                        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+                        <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+                        <f:facet name="footer">
+                            <b:button value="close" dismiss="modal" onclick="return false;"/>
+                            <b:button value="Ok" look="primary" dismiss="modal" onclick="return false;"/>
+                        </f:facet>
+                    </b:modal>
 					</b:panel>
 				</b:container>
 			</h:form>
