@@ -1,6 +1,8 @@
 package br.edu.ifms.requerimentos.model;
 
 import java.util.Date;
+
+import javax.annotation.PostConstruct;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,11 +35,19 @@ public class Requerimento {
 	@OneToOne
 	private Setor setorDestino;
 	@JoinColumn(name="requerente_fk")
-	@ManyToOne(targetEntity = Requerente.class)
+	@ManyToOne
 	private Requerente requerente;
 	@JoinColumn(name="estudante_fk")
-	@ManyToOne(targetEntity = Estudante.class)
+	@ManyToOne
 	private Estudante estudante;
+	
+	@PostConstruct
+	public void init() {
+	    estudante = new Estudante();
+	    requerente = new Requerente();
+	    setorDestino = new Setor();
+	    servidorResponsavel = new Servidor();
+	}
 	
 	
 	public Integer getId() {

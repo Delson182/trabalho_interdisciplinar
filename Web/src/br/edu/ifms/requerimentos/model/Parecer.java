@@ -23,10 +23,7 @@ public class Parecer{
     private Setor setor;
 	@ManyToOne
     private Requerimento requerimento ;
-	
-	public Parecer() {
-		
-	}
+
 	public Integer getId() {
 		return id;
 	}

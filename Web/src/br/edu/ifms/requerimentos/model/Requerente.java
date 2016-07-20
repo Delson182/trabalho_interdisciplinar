@@ -18,7 +18,7 @@ public class Requerente {
 	@Id
 	@Column(name="requerente_id")
 	@GeneratedValue
-	private Integer id; // Primary KeY
+	private Integer id; 
 	private String cpf;
 	private String rg;
 	@Column(name="nomerequerente")
@@ -29,6 +29,10 @@ public class Requerente {
 	@JoinColumn(name="estudante_fk")
 	@OneToOne
 	private Estudante estudante;
+	
+	public Requerente() {
+
+	}
 	
 	public Integer getId() {
 		return id;
@@ -72,11 +76,11 @@ public class Requerente {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public Estudante getEstudane() {
+	public Estudante getEstudante() {
 		return estudante;
 	}
-	public void setEstudane(Estudante estudane) {
-		this.estudante = estudane;
+	public void setEstudante(Estudante estudante) {
+		this.estudante = estudante;
 	}
 
 }

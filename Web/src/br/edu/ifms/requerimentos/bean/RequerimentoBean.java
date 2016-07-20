@@ -3,13 +3,20 @@ package br.edu.ifms.requerimentos.bean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-
+import javax.faces.event.AjaxBehaviorEvent;
 import br.edu.ifms.requerimento.business.RequerimentoBO;
+import br.edu.ifms.requerimentos.dao.EstudanteDAO;
 import br.edu.ifms.requerimentos.model.DescricaoTipoRequerimento;
+import br.edu.ifms.requerimentos.model.Estudante;
+import br.edu.ifms.requerimentos.model.Matricula;
 import br.edu.ifms.requerimentos.model.Parecer;
+import br.edu.ifms.requerimentos.model.Requerente;
 import br.edu.ifms.requerimentos.model.Requerimento;
+import br.edu.ifms.requerimentos.model.Servidor;
 
 @ManagedBean
 @ViewScoped
@@ -17,16 +24,55 @@ public class RequerimentoBean implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Requerimento requerimento = new Requerimento();
-	private Parecer parecer = new Parecer();
+	private Requerimento requerimento;
+	private Parecer parecer;
+	private Matricula matricula;
+	private Requerente requerente;
+	private Estudante estudante;
+	private Servidor servidor;
 	private TiposRequerimento tiposRequerimento = new TiposRequerimento();
 	private boolean estudanteErequerente;
 	
+	@PostConstruct
+	public void init() {
+	   requerente = new Requerente();
+	   estudante = new Estudante();
+	}
+	
+	public void autoCompletar(AjaxBehaviorEvent event) {
+		EstudanteDAO estuDAO = new EstudanteDAO();
+		List<Estudante> estudantes = estuDAO.recuperaTodos();
+		Estudante resultado = new Estudante();
+		if(!(estudantes.stream().filter(elem -> elem.getNome().equals(requerente.getNomerequerente())).count()>1)){
+			resultado= estudantes.stream().filter(elem -> elem.getNome().equals(requerente.getNomerequerente())).findFirst().orElse(null);
+			requerente.setCpf(resultado.getCpf());
+			estudante.setRa(resultado.getRa());
+			requerente.setFonecel(resultado.getTelefone());
+			requerente.setEmail(resultado.getEmail());
+			estudante.setNome(resultado.getNome());
+		}
+		
+	} 
+
+
+	public String getNomesCSV() {
+		StringBuilder b=new StringBuilder();
+		EstudanteDAO estuDAO = new EstudanteDAO();
+		List<Estudante> estudantes = estuDAO.recuperaTodos();;
+		for (Estudante s:estudantes) {
+			if (b.length()>0) {
+				b.append(",");
+			}
+			b.append((s.getNome()));
+			
+		}
+		return (b.toString());
+	}
 	
 	public String salvar(){
 		RequerimentoBO reqBO= new RequerimentoBO();
 		List<DescricaoTipoRequerimento> listaTiposRequerimentos = criaListaTiposRequerimento();
-		reqBO.salvaRequerimento(requerimento, listaTiposRequerimentos);
+		reqBO.salvaRequerimento(requerimento, listaTiposRequerimentos, estudante, requerente, parecer, matricula);
 		return"";
 	}
 	
@@ -82,6 +128,7 @@ public class RequerimentoBean implements Serializable {
 		}
 		return descr;
 	}
+	
 	public TiposRequerimento getTiposRequerimento() {
 		return tiposRequerimento;
 	}
@@ -106,16 +153,40 @@ public class RequerimentoBean implements Serializable {
 		this.requerimento = requerimento;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 	public Parecer getParecer() {
 		return parecer;
 	}
 
 	public void setParecer(Parecer parecer) {
 		this.parecer = parecer;
+	}
+
+	public Matricula getMatricula() {
+		return matricula;
+	}
+
+	public void setMatricula(Matricula matricula) {
+		this.matricula = matricula;
+	}
+
+	public Requerente getRequerente() {
+		return requerente;
+	}
+
+	public Estudante getEstudante() {
+		return estudante;
+	}
+
+	public void setEstudante(Estudante estudante) {
+		this.estudante = estudante;
+	}
+
+	public Servidor getServidor() {
+		return servidor;
+	}
+
+	public void setServidor(Servidor servidor) {
+		this.servidor = servidor;
 	}  
 	
 }

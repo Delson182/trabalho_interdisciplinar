@@ -20,13 +20,8 @@ public class Matricula{
     @ManyToOne
     private Curso curso;
     
-	public Matricula(Integer id, String matricula, String periodo, String turma, String turno, Curso curso) {
-		this.id = id;
-		this.matricula = matricula;
-		this.periodo = periodo;
-		this.turma = turma;
-		this.turno = turno;
-		this.curso = curso;
+	public Matricula() {
+		
 	}
 	public Integer getId() {
 		return id;
