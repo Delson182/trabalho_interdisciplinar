@@ -8,6 +8,7 @@ package br.edu.ifms.requerimentos.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -17,7 +18,7 @@ public class Requerente {
 	
 	@Id
 	@Column(name="requerente_id")
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id; 
 	private String cpf;
 	private String rg;

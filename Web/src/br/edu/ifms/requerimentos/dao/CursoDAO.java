@@ -7,17 +7,17 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 
-import br.edu.ifms.requerimentos.model.TipoRequerimento;
+import br.edu.ifms.requerimentos.model.Curso;
 import br.edu.ifms.requerimentos.util.JPAUtil;
 
-public class TipoRequerimentoDAO {
+public class CursoDAO {
 	
-	public boolean salva(TipoRequerimento requerimento) {
+	public boolean salva(Curso curso) {
 		try {
 			EntityManager em = JPAUtil.getEntityManager();
 			EntityTransaction transacao = em.getTransaction();
 			transacao.begin();
-			em.persist(requerimento);
+			em.persist(curso);
 			transacao.commit();
 			em.close();
 		} catch (Exception e) {
@@ -28,17 +28,34 @@ public class TipoRequerimentoDAO {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<TipoRequerimento> recuperaTodos() {
-		List<TipoRequerimento> requerimento = new ArrayList<TipoRequerimento>();
+	public List<Curso> recuperaTodos() {
+		List<Curso> curso = new ArrayList<Curso>();
 		try {
 			EntityManager em = JPAUtil.getEntityManager();
-			Query query = em.createQuery("FROM TipoRequerimento");
-			requerimento = query.getResultList();
+			Query query = em.createQuery("FROM Curso");
+			curso = query.getResultList();
 			em.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return requerimento;
+		return curso;
 	}
+	
+	
+	public Curso recuperaPorId(Integer id) {
+		Curso curso = new Curso();
+		try {
+			EntityManager em = JPAUtil.getEntityManager();
+			Query query = em.createQuery("from Curso where curso_id=:id");
+			query.setParameter("id", id);
+			curso = (Curso) query.getSingleResult();
+			em.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return curso;
+	}
+	
+	
 
 }

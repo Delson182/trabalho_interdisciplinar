@@ -19,6 +19,9 @@ public class Matricula{
     @JoinColumn(name = "curso_fk")
     @ManyToOne
     private Curso curso;
+    @JoinColumn(name = "estudante_fk")
+    @ManyToOne
+    private Estudante estudante;
     
 	public Matricula() {
 		
@@ -58,6 +61,12 @@ public class Matricula{
 	}
 	public void setCurso(Curso curso) {
 		this.curso = curso;
+	}
+	public Estudante getEstudante() {
+		return estudante;
+	}
+	public void setEstudante(Estudante estudante) {
+		this.estudante = estudante;
 	}
 
 }

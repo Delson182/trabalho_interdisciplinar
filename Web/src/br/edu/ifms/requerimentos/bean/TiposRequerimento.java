@@ -8,7 +8,7 @@ public class TiposRequerimento {
 	private boolean convalidacao;
 	private boolean declaracao;
 	private boolean desistenciaDeCurso;
-	private boolean enriquecimentoProfissional;
+	private boolean enriquecimentoCurricular;
 	private boolean exameSuficiencia;
 	private boolean historicoEscolar;
 	private boolean matriculaEmUnidadeCurricular;
@@ -55,11 +55,11 @@ public class TiposRequerimento {
 	public void setDesistenciaDeCurso(boolean desistenciaDeCurso) {
 		this.desistenciaDeCurso = desistenciaDeCurso;
 	}
-	public boolean isEnriquecimentoProfissional() {
-		return enriquecimentoProfissional;
+	public boolean isEnriquecimentoCurricular() {
+		return enriquecimentoCurricular;
 	}
-	public void setEnriquecimentoProfissional(boolean enriquecimentoProfissional) {
-		this.enriquecimentoProfissional = enriquecimentoProfissional;
+	public void setEnriquecimentoCurricular(boolean enriquecimentoProfissional) {
+		this.enriquecimentoCurricular = enriquecimentoProfissional;
 	}
 	public boolean isExameSuficiencia() {
 		return exameSuficiencia;

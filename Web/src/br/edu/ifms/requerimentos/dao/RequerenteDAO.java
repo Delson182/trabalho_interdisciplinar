@@ -40,5 +40,37 @@ public class RequerenteDAO {
 		}
 		return requerente;
 	}
+	@SuppressWarnings("unchecked")
+	public List<Requerente> recuperaApenasRequerentesNaoAlunos() {
+		List<Requerente> requerente = new ArrayList<Requerente>();
+		try {
+			EntityManager em = JPAUtil.getEntityManager();
+			Query query = em.createQuery("FROM Requerente r WHERE r.estudante.cpf != r.cpf");
+			requerente = query.getResultList();
+			em.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return requerente;
+	}
+	
+	public Requerente recuperaPorCpf(String cpf) {
+		Requerente requerente = Requerente();
+		try {
+			EntityManager em = JPAUtil.getEntityManager();
+			Query query = em.createQuery("FROM Requerente where cpf=:cpf");
+			query.setParameter("cpf", cpf);
+			requerente = (Requerente) query.getSingleResult();
+			em.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return requerente;
+	}
+
+	private Requerente Requerente() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

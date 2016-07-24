@@ -1,16 +1,15 @@
 package br.edu.ifms.requerimentos.bean;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 import br.edu.ifms.requerimento.business.RequerimentoBO;
-import br.edu.ifms.requerimentos.dao.EstudanteDAO;
-import br.edu.ifms.requerimentos.model.DescricaoTipoRequerimento;
+import br.edu.ifms.requerimentos.dao.MatriculaDAO;
+import br.edu.ifms.requerimentos.dao.RequerenteDAO;
+import br.edu.ifms.requerimentos.model.Curso;
 import br.edu.ifms.requerimentos.model.Estudante;
 import br.edu.ifms.requerimentos.model.Matricula;
 import br.edu.ifms.requerimentos.model.Parecer;
@@ -21,114 +20,142 @@ import br.edu.ifms.requerimentos.model.Servidor;
 @ManagedBean
 @ViewScoped
 public class RequerimentoBean implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private Requerimento requerimento;
+	private Curso curso;
 	private Parecer parecer;
 	private Matricula matricula;
 	private Requerente requerente;
 	private Estudante estudante;
 	private Servidor servidor;
+	private Integer setorId;
 	private TiposRequerimento tiposRequerimento = new TiposRequerimento();
 	private boolean estudanteErequerente;
-	
+	private List<Matricula> matriculas;
+	private List<Requerente> requerentes;
+
 	@PostConstruct
 	public void init() {
-	   requerente = new Requerente();
-	   estudante = new Estudante();
+		requerente = new Requerente();
+		estudante = new Estudante();
+		requerimento = new Requerimento();
+		curso = new Curso();
+		matricula = new Matricula();
+		parecer = new Parecer();
+		RequerenteDAO requDAO = new RequerenteDAO();
+		MatriculaDAO matriDAO = new MatriculaDAO();
+		requerentes = requDAO.recuperaApenasRequerentesNaoAlunos();
+		matriculas = matriDAO.recuperaTodos();
 	}
-	
-	public void autoCompletar(AjaxBehaviorEvent event) {
-		EstudanteDAO estuDAO = new EstudanteDAO();
-		List<Estudante> estudantes = estuDAO.recuperaTodos();
-		Estudante resultado = new Estudante();
-		if(!(estudantes.stream().filter(elem -> elem.getNome().equals(requerente.getNomerequerente())).count()>1)){
-			resultado= estudantes.stream().filter(elem -> elem.getNome().equals(requerente.getNomerequerente())).findFirst().orElse(null);
-			requerente.setCpf(resultado.getCpf());
-			estudante.setRa(resultado.getRa());
-			requerente.setFonecel(resultado.getTelefone());
-			requerente.setEmail(resultado.getEmail());
-			estudante.setNome(resultado.getNome());
+
+	// Quando o botão enter é pressionado no input do nome do estudante, o
+	// evento change e acionado e chama esse método
+	public void autoCompletarEstudante(AjaxBehaviorEvent event) {
+		MatriculaDAO matriDAO = new MatriculaDAO();
+		Matricula matriculaRecuperada = new Matricula();
+		try {
+			String[] numeroMatricula = estudante.getNome().split(" ");
+			matriculaRecuperada = matriDAO.recuperaPorMatricula(numeroMatricula[0]);
+			if (matriculaRecuperada != null) {
+				curso.setNome(matriculaRecuperada.getCurso().getNome());
+				estudante.setRa(matriculaRecuperada.getEstudante().getRa());
+				requerente.setCpf(matriculaRecuperada.getEstudante().getCpf());
+				if (matriculaRecuperada.getEstudante().getCelular() != null) {
+					requerente.setFonecel(matriculaRecuperada.getEstudante().getCelular());
+				}
+				if (matriculaRecuperada.getEstudante().getTelefone() != null) {
+					requerente.setFonefixo(matriculaRecuperada.getEstudante().getCelular());
+				}
+				if (matriculaRecuperada.getEstudante().getEmail() != null) {
+					requerente.setFonefixo(matriculaRecuperada.getEstudante().getEmail());
+				}
+				if (matriculaRecuperada.getPeriodo() != null) {
+					matricula.setPeriodo(matriculaRecuperada.getPeriodo());
+				}
+				if (matriculaRecuperada.getTurno() != null) {
+					matricula.setTurno(matriculaRecuperada.getTurno());
+				}
+				if (matriculaRecuperada.getTurma() != null) {
+					matricula.setTurma(matriculaRecuperada.getTurma());
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+
+	}
+	//Quando o botão enter é pressionado no input do nome do requerente, o evento change e acionado e chama esse método
+	public void autoCompletarRequerente(AjaxBehaviorEvent event) {
+		RequerenteDAO reqDAO = new RequerenteDAO();
+		Requerente requerenteRecuperado = new Requerente();
+		try {
+			String[] cpf = estudante.getNome().split(" ");
+			requerenteRecuperado = reqDAO.recuperaPorCpf(cpf[0]);
+			if (requerenteRecuperado != null) {
+				requerente.setCpf(requerenteRecuperado.getEstudante().getCpf());
+				requerente.setRg(requerenteRecuperado.getRg());
+				requerente.setFonecel(requerenteRecuperado.getFonecel());
+				requerente.setFonefixo(requerenteRecuperado.getFonefixo());
+				requerente.setEmail(requerenteRecuperado.getEmail());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		
-	} 
+	}
 
-
-	public String getNomesCSV() {
-		StringBuilder b=new StringBuilder();
-		EstudanteDAO estuDAO = new EstudanteDAO();
-		List<Estudante> estudantes = estuDAO.recuperaTodos();;
-		for (Estudante s:estudantes) {
-			if (b.length()>0) {
+	// Cria lista pro autocompletar do campo do nome do estudante
+	public String getNomesEstudantesCSV() {
+		StringBuilder b = new StringBuilder();
+		for (Matricula m : matriculas) {
+			if (b.length() > 0) {
 				b.append(",");
 			}
-			b.append((s.getNome()));
-			
+			b.append((m.getMatricula() + "  " + m.getEstudante().getNome()));
+
 		}
 		return (b.toString());
 	}
-	
-	public String salvar(){
-		RequerimentoBO reqBO= new RequerimentoBO();
-		List<DescricaoTipoRequerimento> listaTiposRequerimentos = criaListaTiposRequerimento();
-		reqBO.salvaRequerimento(requerimento, listaTiposRequerimentos, estudante, requerente, parecer, matricula);
-		return"";
+
+	// Cria lista pro autocompletar do campo dos requerentes
+	public String getNomesRequerentesCSV() {
+		StringBuilder b = new StringBuilder();
+		for (Requerente r : requerentes) {
+			if (b.length() > 0) {
+				b.append(",");
+			}
+			b.append(r.getCpf() + "  " + r.getNomerequerente());
+
+		}
+		return (b.toString());
 	}
-	
-	public List<DescricaoTipoRequerimento> criaListaTiposRequerimento(){
-		List<DescricaoTipoRequerimento> descr = new ArrayList<DescricaoTipoRequerimento>() ;
-		if(tiposRequerimento.isCancelamentoMatricula()){
-			descr.add(DescricaoTipoRequerimento.CANCELAMENTO_MATRICULA);
-		}
-		if(tiposRequerimento.isCancelamentoUnidadeCurricular()){
-			descr.add(DescricaoTipoRequerimento.CANCELAMENTO_UNIDADE_CURRICULAR);
-		}
-		if(tiposRequerimento.isCertificadoQualificacaoProfisional()){
-			descr.add(DescricaoTipoRequerimento.CERTIFICADO_DE_QUALIFICACAO_PROFISSIONAL);
-		}
-		if(tiposRequerimento.isConvalidacao()){
-			descr.add(DescricaoTipoRequerimento.CONVALIDACAO);
-		}
-		if(tiposRequerimento.isDeclaracao()){
-			descr.add(DescricaoTipoRequerimento.DECLARACAO);
-		}
-		if(tiposRequerimento.isDesistenciaDeCurso()){
-			descr.add(DescricaoTipoRequerimento.DESISTENCIA_DE_CURSO);
-		}
-		if(tiposRequerimento.isEnriquecimentoProfissional()){
-			descr.add(DescricaoTipoRequerimento.ENREQUECIMENTO_PROFISSIONAL);
-		}
-		if(tiposRequerimento.isExameSuficiencia()){
-			descr.add(DescricaoTipoRequerimento.EXAME_DE_SUFICIENCIA);
-		}
-		if(tiposRequerimento.isHistoricoEscolar()){
-			descr.add(DescricaoTipoRequerimento.HISTORICO_ESCOLAR);
-		}
-		if(tiposRequerimento.isMatriculaEmUnidadeCurricular()){
-			descr.add(DescricaoTipoRequerimento.MATRICULA_EM_UNIDADE_CURRICULAR);
-		}
-		if(tiposRequerimento.isMudancaDeTurma()){
-			descr.add(DescricaoTipoRequerimento.MUDANCA_DE_TURMA);
-		}
-		if(tiposRequerimento.isMudancaDeTurno()){
-			descr.add(DescricaoTipoRequerimento.MUDANCA_DE_TURNO);
-		}
-		if(tiposRequerimento.isTrancamento()){
-			descr.add(DescricaoTipoRequerimento.TRANCAMENTO);
-		}
-		if(tiposRequerimento.isSegundaChamada()){
-			descr.add(DescricaoTipoRequerimento.SEGUNDA_CHAMADA);
-		}
-		if(tiposRequerimento.isTrasnferencia()){
-			descr.add(DescricaoTipoRequerimento.TRANSFERENCIA);
-		}
-		if(tiposRequerimento.isOutros()){
-			descr.add(DescricaoTipoRequerimento.OUTROS);
-		}
-		return descr;
+
+	public String salvar() {
+		RequerimentoBO reqBO = new RequerimentoBO();
+		requerimento.setTiporeq1(tiposRequerimento.isCancelamentoMatricula());
+		requerimento.setTiporeq2(tiposRequerimento.isCancelamentoUnidadeCurricular());
+		requerimento.setTiporeq3(tiposRequerimento.isCertificadoQualificacaoProfisional());
+		requerimento.setTiporeq4(tiposRequerimento.isConvalidacao());
+		requerimento.setTiporeq5(tiposRequerimento.isDeclaracao());
+		requerimento.setTiporeq6(tiposRequerimento.isDesistenciaDeCurso());
+		requerimento.setTiporeq7(tiposRequerimento.isEnriquecimentoCurricular());
+		requerimento.setTiporeq8(tiposRequerimento.isExameSuficiencia());
+		requerimento.setTiporeq9(tiposRequerimento.isHistoricoEscolar());
+		requerimento.setTiporeq10(tiposRequerimento.isMatriculaEmUnidadeCurricular());
+		requerimento.setTiporeq11(tiposRequerimento.isMudancaDeTurma());
+		requerimento.setTiporeq12(tiposRequerimento.isMudancaDeTurno());
+		requerimento.setTiporeq13(tiposRequerimento.isTrancamento());
+		requerimento.setTiporeq14(tiposRequerimento.isTrasnferencia());
+		requerimento.setTiporeq15(tiposRequerimento.isSegundaChamada());
+		requerimento.setTiporeq16(tiposRequerimento.isOutros());
+
+		reqBO.salvaRequerimento(requerimento, estudante, requerente, parecer, matricula, curso, setorId);
+		return "";
 	}
-	
+
 	public TiposRequerimento getTiposRequerimento() {
 		return tiposRequerimento;
 	}
@@ -157,16 +184,8 @@ public class RequerimentoBean implements Serializable {
 		return parecer;
 	}
 
-	public void setParecer(Parecer parecer) {
-		this.parecer = parecer;
-	}
-
 	public Matricula getMatricula() {
 		return matricula;
-	}
-
-	public void setMatricula(Matricula matricula) {
-		this.matricula = matricula;
 	}
 
 	public Requerente getRequerente() {
@@ -177,16 +196,20 @@ public class RequerimentoBean implements Serializable {
 		return estudante;
 	}
 
-	public void setEstudante(Estudante estudante) {
-		this.estudante = estudante;
-	}
-
 	public Servidor getServidor() {
 		return servidor;
 	}
 
-	public void setServidor(Servidor servidor) {
-		this.servidor = servidor;
-	}  
-	
+	public Curso getCurso() {
+		return curso;
+	}
+
+	public Integer getSetorId() {
+		return setorId;
+	}
+
+	public void setSetorId(Integer setorId) {
+		this.setorId = setorId;
+	}
+
 }
