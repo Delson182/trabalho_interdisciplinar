@@ -1,12 +1,9 @@
 package br.edu.ifms.requerimento.business;
 
-import java.util.List;
+import java.util.Calendar;
 
-import br.edu.ifms.requerimentos.dao.CursoDAO;
-import br.edu.ifms.requerimentos.dao.MatriculaDAO;
 import br.edu.ifms.requerimentos.dao.ParecerDAO;
 import br.edu.ifms.requerimentos.dao.RequerenteDAO;
-import br.edu.ifms.requerimentos.dao.RequerimentoDAO;
 import br.edu.ifms.requerimentos.dao.ServidorDAO;
 import br.edu.ifms.requerimentos.dao.SetorDAO;
 import br.edu.ifms.requerimentos.model.Curso;
@@ -15,37 +12,47 @@ import br.edu.ifms.requerimentos.model.Matricula;
 import br.edu.ifms.requerimentos.model.Parecer;
 import br.edu.ifms.requerimentos.model.Requerente;
 import br.edu.ifms.requerimentos.model.Requerimento;
-import br.edu.ifms.requerimentos.model.Setor;
 
 public class RequerimentoBO {
 
-	public void salvaRequerimento(Requerimento requerimento,
-			Estudante estudante, Requerente requerente, Parecer parecer, Matricula matricula, Curso curso, Integer setorId) {
-		RequerimentoDAO reqDAO = new RequerimentoDAO();
+	public void salvaRequerimento(Requerimento requerimento, Estudante estudante, Requerente requerente,
+			Parecer parecer, Matricula matricula, Curso curso, Integer setorId) {
 		ServidorDAO servDAO = new ServidorDAO();
 		SetorDAO setDAO = new SetorDAO();
-		MatriculaDAO matriDAO = new MatriculaDAO();
-		Matricula novaMatricula = new Matricula();
+		ParecerDAO pareDAO = new ParecerDAO();
+		RequerenteDAO reqDAO = new RequerenteDAO();
 		Requerimento novoRequerimento = new Requerimento();
 		novoRequerimento = requerimento;
+		estudante = matricula.getEstudante();
+		estudante.setCelular(requerente.getFonecel());
+		estudante.setTelefone(requerente.getFonefixo());
+		estudante.setEmail(requerente.getEmail());
 		requerente.setEstudante(estudante);
-		novoRequerimento.setRequerente(requerente);
-		novaMatricula = matriDAO.recuperaPorMatricula("2014104035002-1");
-		novaMatricula.setPeriodo(matricula.getPeriodo());
-		novaMatricula.setTurma(matricula.getTurma());
-		novaMatricula.setTurno(matricula.getTurno());
-		novoRequerimento.setMatricula(novaMatricula);
+		Requerente requerenteHistorico = reqDAO.buscaCpfComIdDoEstudante(requerente.getCpf(), estudante.getId());
+		if(!(requerenteHistorico == null)){ //Se a relação requerente e aluno já existir, recupera id do objeto no banco
+			requerenteHistorico.setFonecel(requerente.getFonecel());
+			requerenteHistorico.setFonefixo(requerente.getFonefixo());
+			requerenteHistorico.setEmail(requerente.getEmail());
+			requerimento.setRequerente(requerenteHistorico);
+		}else{
+			novoRequerimento.setRequerente(requerente);
+		}
+		
+		novoRequerimento.setMatricula(matricula);
 		novoRequerimento.setSetorDestino(setDAO.recuperaPorId(setorId));
+		novoRequerimento.setDetalhamentoPedido(requerimento.getDetalhamentoPedido());
+		novoRequerimento.setDeferimento("Deferido");
+		novoRequerimento.setDataPrimeiroEncaminhamento(Calendar.getInstance().getTime());
 		parecer.setServidor(servDAO.recuperaPorId(5));
 		novoRequerimento.setServidorResponsavel(servDAO.recuperaPorId(5));
 		novoRequerimento.setProtocolo(requerimento.getProtocolo());
 		novoRequerimento.setData(requerimento.getData());
-		reqDAO.salva(novoRequerimento);
-		
-		//MatriculaDAO matDAO = new MatriculaDAO();
-		//List<Matricula> lista = matDAO.recuperaPorNome(estudante.getId());
-		//lista.stream().forEach(elem -> System.out.println(elem.getMatricula()));
-		
+		parecer.setRequerimento(novoRequerimento);
+		parecer.setServidor(novoRequerimento.getServidorResponsavel());
+		parecer.setObservacaoParecer(parecer.getObservacaoParecer());
+		parecer.setSetor(setDAO.recuperaPorId(3));
+		parecer.setData(Calendar.getInstance().getTime());
+		pareDAO.salvaComRequerimento(parecer);
 	}
 
 }

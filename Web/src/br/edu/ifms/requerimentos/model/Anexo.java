@@ -3,12 +3,15 @@ package br.edu.ifms.requerimentos.model;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 public class Anexo {
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "anexo_id")
 	private Integer id;
 	@Column(name = "nome_original")

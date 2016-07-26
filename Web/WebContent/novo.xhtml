@@ -47,7 +47,7 @@
 									<h:outputText value="Protocolo" for="protocolo" />
 								</b:column>
 								<b:column medium-screen="4">
-									<b:inputText placeholder="Insira o nº do protocolo"
+									<b:inputText placeholder="Insira o nº do protocolo" 
 										id="protocolo"
 										value="#{requerimentoBean.requerimento.protocolo}"
 										ajax="false" autocomplete="false" required="true"
@@ -58,7 +58,7 @@
 									<h:outputText value="Data de Criação" />
 								</b:column>
 								<b:column medium-screen="4">
-									<b:dateTimePicker value="#{requerimentoBean.requerimento.data}"
+									<b:dateTimePicker value="#{requerimentoBean.requerimento.data}" 
 										tooltip="Insira a data  de criação do Protocolo"
 										id="justNowId" mode="popup" side-by-side="true"
 										required="true"
@@ -66,7 +66,7 @@
 										show-date="true" />
 								</b:column>
 							</b:row>
-							<b:messages styleClass="msgs" redisplay="true" for="@parent"
+							<b:messages styleClass="msgs" redisplay="true" for="@this"
 								recursive="true" id="rightmessages" />
 						</b:panel>
 					</b:container>
@@ -82,7 +82,7 @@
 								<b:column medium-screen="10">
 									<b:inputText placeholder="Digite o Nome do Estudante"
 										id="nomeEstudante" value="#{requerimentoBean.estudante.nome}"
-										tiny-screen="full-width" typeahead="true" ajax="true"
+										tiny-screen="full-width" typeahead="true"
 										typeahead-values="#{requerimentoBean.nomesEstudantesCSV}">
 										<f:ajax event="change" render="@form"
 											listener="#{requerimentoBean.autoCompletarEstudante}" />
@@ -101,9 +101,9 @@
 									<b:inputText placeholder="Digite nome do requerente"
 										id="nomeRequerente"
 										value="#{requerimentoBean.requerente.nomerequerente}"
-										tiny-screen="full-width" typeahead="true" ajax="true"
+										tiny-screen="full-width" typeahead="true" 
 										typeahead-values="#{requerimentoBean.nomesRequerentesCSV }"
-										disabled="#{not requerimentoBean.estudanteErequerente}">
+										disabled="#{not requerimentoBean.estudanteNaoRequerente}">
 										<f:ajax event="change" render="@form"
 											listener="#{requerimentoBean.autoCompletarRequerente}" />
 										<f:facet name="prepend">
@@ -113,8 +113,8 @@
 								</b:column>
 								<b:column medium-screen="2"
 									tooltip="O Requerente não é o estudante">
-									<b:selectBooleanCheckbox 
-										value="#{requerimentoBean.estudanteErequerente}"
+									<b:selectBooleanCheckbox  
+										value="#{requerimentoBean.estudanteNaoRequerente}"
 										caption="Requerente" id="estudanteReq"
 										>
 										<p:ajax event="click" global="false" render="@form"/>
@@ -128,7 +128,7 @@
 								<b:column medium-screen="5">
 									<b:inputText placeholder="Digite o RG" id="rg"
 										value="#{requerimentoBean.requerente.rg}" ajax="false"
-										autocomplete="false">
+										autocomplete="false" update="@(.message)">
 										<f:facet name="prepend">
 											<b:iconAwesome name="play" />
 										</f:facet>
@@ -154,7 +154,7 @@
 								</b:column>
 								<b:column medium-screen="4">
 									<b:inputText placeholder="Digite telefone fixo" id="telFixo"
-										value="#{requerimentoBean.requerente.fonefixo}" ajax="false"
+										value="#{requerimentoBean.requerente.fonefixo}" ajax="false" update="@(.message)"
 										autocomplete="false">
 										<f:facet name="prepend">
 											<b:iconAwesome name="phone" />
@@ -167,7 +167,7 @@
 								<b:column medium-screen="4">
 									<b:inputText placeholder="Digite o Tel. Celular"
 										id="telCelular" value="#{requerimentoBean.requerente.fonecel}"
-										ajax="false" autocomplete="false">
+										ajax="false" autocomplete="false" update="@(.message)">
 										<f:facet name="prepend">
 											<b:iconAwesome name="mobile" />
 										</f:facet>
@@ -180,9 +180,8 @@
 								</b:column>
 								<b:column medium-screen="11">
 									<b:inputText placeholder="Digite o E-mail do requerente"
-										required="true" requiredMessage="O e-mail é obrigatório!"
 										id="email" value="#{requerimentoBean.requerente.email}"
-										ajax="false" autocomplete="false">
+										ajax="false" autocomplete="false" update="@(.message)">
 										<f:facet name="prepend">
 											<b:iconAwesome name="envelope" />
 										</f:facet>
@@ -208,7 +207,7 @@
 								<b:column medium-screen="8">
 									<b:inputText placeholder="Selecione o curso do Estudante"
 										id="curso" value="#{requerimentoBean.curso.nome}" ajax="false" autocomplete="false">
-										<f:facet name="prepend">
+										<f:facet name="prepend" >
 											<b:iconAwesome name="play" />
 										</f:facet>
 									</b:inputText>
@@ -220,7 +219,7 @@
 								</b:column>
 								<b:column medium-screen="3">
 									<b:selectOneMenu id="periodo"
-										value="#{requerimentoBean.matricula.periodo}" ajax="false">
+										value="#{requerimentoBean.matricula.periodo}" ajax="false" update="@(.message)">
 										<f:selectItem itemLabel="Selecione" itemValue="" />
 										<f:selectItem itemLabel="1º" itemValue="1" />
 										<f:selectItem itemLabel="2º" itemValue="2" />
@@ -230,7 +229,6 @@
 										<f:selectItem itemLabel="6º" itemValue="6" />
 										<f:selectItem itemLabel="7º" itemValue="7" />
 										<f:selectItem itemLabel="8º" itemValue="8" />
-										<p:ajax event="change" global="false" />
 										<f:selectItem itemLabel="DP" itemValue="DP" />
 										<f:facet name="prepend">
 											<b:iconAwesome name="list" title="form of address" />
@@ -242,12 +240,11 @@
 								</b:column>
 								<b:column medium-screen="3">
 									<b:selectOneMenu id="turno"
-										value="#{requerimentoBean.matricula.turno}" ajax="false">
+										value="#{requerimentoBean.matricula.turno}" ajax="false" update="@(.message)">
 										<f:selectItem itemLabel="Selecione" itemValue="" />
 										<f:selectItem itemLabel="Matutino" itemValue="Matutino" />
 										<f:selectItem itemLabel="Vespertino" itemValue="Vespertino" />
 										<f:selectItem itemLabel="Noturno" itemValue="Noturno" />
-										<p:ajax event="change" global="false" />
 										<f:facet name="prepend">
 											<b:iconAwesome name="list" title="form of address" />
 										</f:facet>
@@ -258,7 +255,7 @@
 								</b:column>
 								<b:column medium-screen="3">
 									<b:inputText placeholder="Selecione a Turma" id="turma"
-										value="#{requerimentoBean.matricula.turma}" ajax="false"
+										value="#{requerimentoBean.matricula.turma}" ajax="false" update="@(.message)"
 										autocomplete="false">
 										<f:facet name="prepend">
 											<b:iconAwesome name="users" />
@@ -266,6 +263,7 @@
 									</b:inputText>
 								</b:column>
 							</b:row>
+							
 						</b:panel>
 					</b:container>
 				</h:form>
@@ -383,8 +381,9 @@
 								<b:row>
 									<b:column medium-screen="12">
 										<h:outputText value="Detalhamento do Pedido" />
-										<b:inputTextarea id="obsRequerimento"
+										<b:inputTextarea id="obsRequerimento" update="@(.message)" ajax="false"
 											value="#{requerimentoBean.requerimento.detalhamentoPedido}">
+											<p:ajax event="change" global="false" />	
 										</b:inputTextarea>
 									</b:column>
 
@@ -429,9 +428,10 @@
 								</b:row>
 								<b:row>
 									<b:column medium-screen="12">
-										<b:inputTextarea id="obsparecer"
+										<b:inputTextarea id="obsparecer" update="@(.message)"
 											value="#{requerimentoBean.parecer.observacaoParecer}"
 											ajax="false">
+											<p:ajax event="change" global="false" />
 										</b:inputTextarea>
 									</b:column>
 
@@ -541,7 +541,7 @@
 						<b:column medium-screen="12">
 							<!-- Fim do painel de parecer -->
 							<b:commandButton value="Salvar Requerimento" ajax="true"
-								action="#{requerimentoBean.salvar}" update="@form"
+								action="#{requerimentoBean.salvar}" update="@form" 
 								look="primary">
 							</b:commandButton>
 						</b:column>

@@ -32,7 +32,7 @@ public class RequerimentoBean implements Serializable {
 	private Servidor servidor;
 	private Integer setorId;
 	private TiposRequerimento tiposRequerimento = new TiposRequerimento();
-	private boolean estudanteErequerente;
+	private boolean estudanteNaoRequerente;
 	private List<Matricula> matriculas;
 	private List<Requerente> requerentes;
 
@@ -49,6 +49,33 @@ public class RequerimentoBean implements Serializable {
 		requerentes = requDAO.recuperaApenasRequerentesNaoAlunos();
 		matriculas = matriDAO.recuperaTodos();
 	}
+	
+	public String salvar() {
+		RequerimentoBO reqBO = new RequerimentoBO();
+		requerimento.setTiporeq1(tiposRequerimento.isCancelamentoMatricula());
+		requerimento.setTiporeq2(tiposRequerimento.isCancelamentoUnidadeCurricular());
+		requerimento.setTiporeq3(tiposRequerimento.isCertificadoQualificacaoProfisional());
+		requerimento.setTiporeq4(tiposRequerimento.isConvalidacao());
+		requerimento.setTiporeq5(tiposRequerimento.isDeclaracao());
+		requerimento.setTiporeq6(tiposRequerimento.isDesistenciaDeCurso());
+		requerimento.setTiporeq7(tiposRequerimento.isEnriquecimentoCurricular());
+		requerimento.setTiporeq8(tiposRequerimento.isExameSuficiencia());
+		requerimento.setTiporeq9(tiposRequerimento.isHistoricoEscolar());
+		requerimento.setTiporeq10(tiposRequerimento.isMatriculaEmUnidadeCurricular());
+		requerimento.setTiporeq11(tiposRequerimento.isMudancaDeTurma());
+		requerimento.setTiporeq12(tiposRequerimento.isMudancaDeTurno());
+		requerimento.setTiporeq13(tiposRequerimento.isTrancamento());
+		requerimento.setTiporeq14(tiposRequerimento.isTrasnferencia());
+		requerimento.setTiporeq15(tiposRequerimento.isSegundaChamada());
+		requerimento.setTiporeq16(tiposRequerimento.isOutros());
+		if(!estudanteNaoRequerente && matricula.getEstudante() != null){
+			requerente.setNomerequerente(matricula.getEstudante().getNome());
+		}
+		
+		System.out.println(requerimento.getData());
+		reqBO.salvaRequerimento(requerimento, estudante, requerente, parecer, matricula, curso, setorId);
+		return "";
+	}
 
 	// Quando o botão enter é pressionado no input do nome do estudante, o
 	// evento change e acionado e chama esse método
@@ -58,18 +85,20 @@ public class RequerimentoBean implements Serializable {
 		try {
 			String[] numeroMatricula = estudante.getNome().split(" ");
 			matriculaRecuperada = matriDAO.recuperaPorMatricula(numeroMatricula[0]);
+			matricula = matriculaRecuperada;
 			if (matriculaRecuperada != null) {
 				curso.setNome(matriculaRecuperada.getCurso().getNome());
 				estudante.setRa(matriculaRecuperada.getEstudante().getRa());
 				requerente.setCpf(matriculaRecuperada.getEstudante().getCpf());
+				estudante.setTelefone(requerente.getFonefixo());
 				if (matriculaRecuperada.getEstudante().getCelular() != null) {
 					requerente.setFonecel(matriculaRecuperada.getEstudante().getCelular());
 				}
-				if (matriculaRecuperada.getEstudante().getTelefone() != null) {
-					requerente.setFonefixo(matriculaRecuperada.getEstudante().getCelular());
-				}
 				if (matriculaRecuperada.getEstudante().getEmail() != null) {
-					requerente.setFonefixo(matriculaRecuperada.getEstudante().getEmail());
+					requerente.setEmail(matriculaRecuperada.getEstudante().getEmail());
+				}
+				if (matriculaRecuperada.getEstudante().getTelefone() != null) {
+					requerente.setFonefixo(matriculaRecuperada.getEstudante().getTelefone());
 				}
 				if (matriculaRecuperada.getPeriodo() != null) {
 					matricula.setPeriodo(matriculaRecuperada.getPeriodo());
@@ -91,7 +120,7 @@ public class RequerimentoBean implements Serializable {
 		RequerenteDAO reqDAO = new RequerenteDAO();
 		Requerente requerenteRecuperado = new Requerente();
 		try {
-			String[] cpf = estudante.getNome().split(" ");
+			String[] cpf = requerente.getNomerequerente().split(" ");
 			requerenteRecuperado = reqDAO.recuperaPorCpf(cpf[0]);
 			if (requerenteRecuperado != null) {
 				requerente.setCpf(requerenteRecuperado.getEstudante().getCpf());
@@ -133,29 +162,6 @@ public class RequerimentoBean implements Serializable {
 		return (b.toString());
 	}
 
-	public String salvar() {
-		RequerimentoBO reqBO = new RequerimentoBO();
-		requerimento.setTiporeq1(tiposRequerimento.isCancelamentoMatricula());
-		requerimento.setTiporeq2(tiposRequerimento.isCancelamentoUnidadeCurricular());
-		requerimento.setTiporeq3(tiposRequerimento.isCertificadoQualificacaoProfisional());
-		requerimento.setTiporeq4(tiposRequerimento.isConvalidacao());
-		requerimento.setTiporeq5(tiposRequerimento.isDeclaracao());
-		requerimento.setTiporeq6(tiposRequerimento.isDesistenciaDeCurso());
-		requerimento.setTiporeq7(tiposRequerimento.isEnriquecimentoCurricular());
-		requerimento.setTiporeq8(tiposRequerimento.isExameSuficiencia());
-		requerimento.setTiporeq9(tiposRequerimento.isHistoricoEscolar());
-		requerimento.setTiporeq10(tiposRequerimento.isMatriculaEmUnidadeCurricular());
-		requerimento.setTiporeq11(tiposRequerimento.isMudancaDeTurma());
-		requerimento.setTiporeq12(tiposRequerimento.isMudancaDeTurno());
-		requerimento.setTiporeq13(tiposRequerimento.isTrancamento());
-		requerimento.setTiporeq14(tiposRequerimento.isTrasnferencia());
-		requerimento.setTiporeq15(tiposRequerimento.isSegundaChamada());
-		requerimento.setTiporeq16(tiposRequerimento.isOutros());
-
-		reqBO.salvaRequerimento(requerimento, estudante, requerente, parecer, matricula, curso, setorId);
-		return "";
-	}
-
 	public TiposRequerimento getTiposRequerimento() {
 		return tiposRequerimento;
 	}
@@ -164,12 +170,12 @@ public class RequerimentoBean implements Serializable {
 		this.tiposRequerimento = tiposRequerimento;
 	}
 
-	public boolean isEstudanteErequerente() {
-		return estudanteErequerente;
+	public boolean isEstudanteNaoRequerente() {
+		return estudanteNaoRequerente;
 	}
 
-	public void setEstudanteErequerente(boolean estudanteErequerente) {
-		this.estudanteErequerente = estudanteErequerente;
+	public void setEstudanteNaoRequerente(boolean estudanteErequerente) {
+		this.estudanteNaoRequerente = estudanteErequerente;
 	}
 
 	public Requerimento getRequerimento() {

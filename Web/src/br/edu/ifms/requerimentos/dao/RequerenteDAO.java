@@ -55,10 +55,10 @@ public class RequerenteDAO {
 	}
 	
 	public Requerente recuperaPorCpf(String cpf) {
-		Requerente requerente = Requerente();
+		Requerente requerente = new Requerente();
 		try {
 			EntityManager em = JPAUtil.getEntityManager();
-			Query query = em.createQuery("FROM Requerente where cpf=:cpf");
+			Query query = em.createQuery("FROM Requerente as r where r.cpf=:cpf");
 			query.setParameter("cpf", cpf);
 			requerente = (Requerente) query.getSingleResult();
 			em.close();
@@ -67,10 +67,25 @@ public class RequerenteDAO {
 		}
 		return requerente;
 	}
-
-	private Requerente Requerente() {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public Requerente buscaCpfComIdDoEstudante(String cpf, Integer id) {
+		Requerente requerente = new Requerente();
+		try {
+			EntityManager em = JPAUtil.getEntityManager();
+			Query query = em.createQuery("FROM Requerente where cpf=:cpf and estudante_fk=:id");
+			query.setParameter("cpf", cpf);
+			query.setParameter("id", id);
+			if(query.getResultList().isEmpty()){
+				return null;
+			}else{
+				requerente = (Requerente) query.getSingleResult();
+			}		
+			em.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return requerente;
 	}
+
 
 }
