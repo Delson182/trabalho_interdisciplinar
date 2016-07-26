@@ -4407,6 +4407,20 @@ Instituto Federal de Educação, Ciência e Tecnologia de Mato Grosso do Sul]]><
         </grid>
         <table id="435">
             <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">nome_1</property>
+                    <text-property name="displayName">nome</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["nome_1"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">sigla</property>
+                    <text-property name="displayName">sigla</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["sigla"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
             <column id="448"/>
             <column id="449"/>
             <column id="450"/>
@@ -4424,6 +4438,20 @@ Instituto Federal de Educação, Ciência e Tecnologia de Mato Grosso do Sul]]><
                 </row>
             </header>
             <detail>
+                <row id="475">
+                    <cell id="476">
+                        <property name="colSpan">2</property>
+                        <property name="rowSpan">1</property>
+                        <data id="479">
+                            <property name="resultSetColumn">nome_1</property>
+                        </data>
+                    </cell>
+                    <cell id="478">
+                        <data id="480">
+                            <property name="resultSetColumn">sigla</property>
+                        </data>
+                    </cell>
+                </row>
                 <row id="440">
                     <cell id="441">
                         <property name="colSpan">3</property>
