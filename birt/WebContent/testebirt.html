@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Teste Birt</title>
+<script>
+function abrirRel(req_param){ 
+  var url="http://localhost:8080/birt/frameset?__report=rel/reqifms/req.rptdesign&req_param="+req_param+"&__format=pdf";
+  window.open(url, "Relatório", "width=200,height=100,fullscreen=yes,location=no"); 
+}
+</script>
+</head>
+<body>
+	<button type="button" onclick="abrirRel(1);">Abrir</button>
+	
+</body>
+</html>
