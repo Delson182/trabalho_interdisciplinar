@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>ReqIFMS</title>
+
+	<h:outputStylesheet library="sh" name="css/shCore.css" />
+	<h:outputStylesheet library="sh" name="css/shCoreEclipse.css" />
+	<!-- These CSS don't do anything. The just demonstrate the position attribute. -->
+	<h:outputStylesheet name="last.css" position="last" />
+	<h:outputStylesheet name="first.css" position="first" />
+	<h:outputStylesheet name="middle.css" position="middle" />
+	<h:outputStylesheet library="customthemes"
+		name="freelancer/bootstrap.min.css" />
+	<h:outputStylesheet library="customthemes"
+		name="#{theme.customTheme}/bootstrap.min.css"
+		rendered="#{theme.customTheme ne ''}" />
+	<h:outputStylesheet library="customthemes"
+		name="#{theme.customTheme}/#{theme.customTheme}.css"
+		rendered="#{theme.customTheme ne ''}" />
+	<style>
+.tooltip-inner {
+	max-width: 350px;
+	/* If max-width does not work, try using width instead */
+	width: 350px;
+}
+</style>
+	<script type="text/javascript">
+      function(){ $('.modalPseudoClass').modal('show'); };
+</script>
+</h:head>
+<h:body style="padding-top: 20px;padding-bottom: 20px;"
+	addLabels="false" addMessages="false">
+	<b:container>
+		<b:well>
+		</b:well>
+	</b:container>
+	<b:container>
+		<b:jumbotron>
+			<h:form id="pesquisa" prependId="false">
+				<b:container layout="fluid">
+					<b:panel id="painelpesquisa" title="Pesquisar" look="primary">
+						<b:row>
+							<b:column medium-screen="1">
+								<h:outputText value="Pesquisar" for="pesquisar" />
+							</b:column>
+							<b:column medium-screen="10"
+								tooltip="Digite a intenção de pesquisa">
+								<b:inputText placeholder="Insira o texto da pesquisa"
+									id="filtro" value="#{visualizarBean.filtro}" ajax="false"
+									autocomplete="false">
+								</b:inputText>
+							</b:column>
+
+							<b:column medium-screen="1"
+								tooltip="Precione o botão para pesquisar">
+								<b:commandButton ajax="true" icon="search"
+									action="#{visualizarBean.recuperarLista}" update="tabela"
+									look="primary" />
+							</b:column>
+						</b:row>
+						<b:row>
+							<b:column medium-screen="4"
+								tooltip="Selecione um filtro para refinar a pesquisa por requerimentos Pendentes">
+								<b:selectBooleanCheckbox value="#{visualizarBean.pendente}"
+									caption="Pendente" id="tipoPes1" />
+							</b:column>
+							<b:column medium-screen="4"
+								tooltip="Selecione um filtro para refinar a pesquisa por requerimentos Deferidos">
+								<b:selectBooleanCheckbox value="#{visualizarBean.deferido}"
+									caption="Deferido" id="tipoPes2" />
+							</b:column>
+							<b:column medium-screen="3"
+								tooltip="Selecione um filtro para refinar a pesquisa por requerimentos Indeferidos">
+								<b:selectBooleanCheckbox value="#{visualizarBean.indeferido}"
+									caption="Indeferido" id="tipoPes3" />
+							</b:column>
+							<b:column medium-screen="1"
+								tooltip="Selecione para criar um novo Requerimento">
+								<b:commandButton value="" action="#{visualizarBean.criarNovo}"
+									icon="file" update="@form" look="primary">
+								</b:commandButton>
+							</b:column>
+						</b:row>
+					</b:panel>
+				</b:container>
+
+				<b:container layout="fluid">
+					<b:panel title="Lista de Protocolos" look="primary">
+						<p:dataTable id="tabela" value="#{visualizarBean.lista}"
+							var="dados" >
+								<p:column style="text-align: center;">
+									<f:facet name="header">Protocolo</f:facet>
+							#{dados.protocolo}
+						</p:column>
+							<p:column style="text-align: center;">
+								<f:facet name="header">Data de Criação</f:facet>
+						#{dados.data}
+					</p:column>
+							<p:column style="text-align: center;">
+								<f:facet name="header">Nome</f:facet>
+						#{dados.nome}
+					</p:column>
+							<p:column style="text-align: center;">
+								<f:facet name="header">Setor de Destino</f:facet>
+						#{dados.sigla}
+					</p:column>
+							<p:column style="text-align: center;">
+								<f:facet name="header">Visualizar</f:facet>
+								<p:commandButton icon="ui-icon-search" onclick="PF('dlgModal').show()" />
+								<p:dialog header="Requerimento" widgetVar="dlgModal" modal="true" resizable="false" >
+									Protocolo:
+									<h:outputText value="#{dados.protocolo}" />
+								</p:dialog>
+							</p:column>
+							<p:column style="text-align: center;">
+								<f:facet name="header">Editar</f:facet>
+								<p:commandButton icon="ui-icon-pencil" onclick="PF('dlgModal').show()" />
+								<p:dialog header="Requerimento" widgetVar="dlgModal" modal="true">
+									Protocolo:
+									<h:outputText value="#{dados.protocolo}" />
+								</p:dialog>
+							</p:column>
+						</p:dataTable>
+					</b:panel>
+				</b:container>
+			</h:form>
+		</b:jumbotron>
+	</b:container>
+</h:body>
+</html>
