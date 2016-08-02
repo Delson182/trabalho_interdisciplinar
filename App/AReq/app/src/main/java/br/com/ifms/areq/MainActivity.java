@@ -1,8 +1,10 @@
 package br.com.ifms.areq;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -25,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //getSupportActionBar().setTitle("Autenticação");
+
 
         imgAutentica = (ImageView) findViewById(R.id.imgAutentica);
         edtCPF = (EditText) findViewById(R.id.edtCPF);
@@ -56,7 +58,9 @@ public class MainActivity extends AppCompatActivity {
                         cpfValido = true;
                     } else {
                         imgAutentica.setImageResource(R.drawable.check_vermelho);
-                        Toast.makeText(getApplicationContext(), "CPF Inválido", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), "CPF Inválido", Toast.LENGTH_SHORT).show();
+                        //TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+                        Toast.makeText(getApplicationContext(), android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID), Toast.LENGTH_SHORT).show();
                         cpfValido = false;
                     }
                     trocarVerificador = true;

@@ -30,8 +30,8 @@
 	width: 350px;
 }
 </style>
-<script type="text/javascript">
-      $(window).load(function(){ $('.modalPseudoClass').modal('show'); });
+	<script type="text/javascript">
+      function(){ $('.modalPseudoClass').modal('show'); };
 </script>
 </h:head>
 <h:body style="padding-top: 20px;padding-bottom: 20px;"
@@ -42,44 +42,43 @@
 	</b:container>
 	<b:container>
 		<b:jumbotron>
-			<h:form id="pesquisa">
+			<h:form id="pesquisa" prependId="false">
 				<b:container layout="fluid">
-					<b:panel title="pesquisar" look="primary">
+					<b:panel id="painelpesquisa" title="pesquisar" look="primary">
 						<b:row>
-						
-       
 							<b:column medium-screen="1">
-								<h:outputText value="pesquisar" for="pesquisar" />
-								 
+								<h:outputText value="PESQUISAR" for="pesquisar" />
 							</b:column>
 							<b:column medium-screen="10"
 								tooltip="Digite a intenção de pesquisa">
-							<b:inputText placeholder="Insira o texto da pesquisa"
-									id="pesquisa" value="" ajax="true" autocomplete="false">
+								<b:inputText placeholder="Insira o texto da pesquisa"
+									id="filtro" value="#{visualizarBean.filtro}" ajax="false"
+									autocomplete="false">
 								</b:inputText>
 							</b:column>
 
 							<b:column medium-screen="1"
 								tooltip="Precione o botão para pesquisar">
-								<b:commandButton onclick="ajax:loginBean.login()" icon="search"
-									update="@form" look="primary" />
+								<b:commandButton ajax="true" icon="search"
+									action="#{visualizarBean.recuperarLista}" update="tabela"
+									look="primary" />
 							</b:column>
 						</b:row>
 						<b:row>
 							<b:column medium-screen="4"
 								tooltip="Selecione um filtro para refinar a pesquisa por requerimentos Pendentes">
-								<b:selectBooleanCheckbox value="" caption="Pendente"
-									id="tipoPes1" />
+								<b:selectBooleanCheckbox value="#{visualizarBean.pendente}"
+									caption="Pendente" id="tipoPes1" />
 							</b:column>
 							<b:column medium-screen="4"
 								tooltip="Selecione um filtro para refinar a pesquisa por requerimentos Deferidos">
-								<b:selectBooleanCheckbox value="" caption="Deferido"
-									id="tipoPes2" />
+								<b:selectBooleanCheckbox value="#{visualizarBean.deferido}"
+									caption="Deferido" id="tipoPes2" />
 							</b:column>
 							<b:column medium-screen="3"
 								tooltip="Selecione um filtro para refinar a pesquisa por requerimentos Indeferidos">
-								<b:selectBooleanCheckbox value="" caption="Indeferido"
-									id="tipoPes3" />
+								<b:selectBooleanCheckbox value="#{visualizarBean.indeferido}"
+									caption="Indeferido" id="tipoPes3" />
 							</b:column>
 							<b:column medium-screen="1"
 								tooltip="Selecione para criar um novo Requerimento">
@@ -87,30 +86,52 @@
 									icon="file" update="@form" look="primary" />
 							</b:column>
 						</b:row>
-						<b:row>  <b:button value="Click e veja o modal" look="success" onclick="$('.modalPseudoClass').modal();return false;" size="lg"/></b:row>
-						 <b:modal id="amodal" title="Adelson Peroba" styleClass="modalPseudoClass">
-                        <p>Podemos inserir o que nos quizermos aqui</p>
-                        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
-                        <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
-                        <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-                        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
-                        <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
-                        <f:facet name="footer">
-                            <b:button value="close" dismiss="modal" onclick="return false;"/>
-                            <b:button value="Ok" look="primary" dismiss="modal" onclick="return false;"/>
-                        </f:facet>
-                    </b:modal>
 					</b:panel>
 				</b:container>
-			</h:form>
-			<h:form>
-				<h:form id="visualizar">
-					<b:container layout="fluid">
-						<b:panel title="Lista de Protocolos" look="primary">
-							
-						</b:panel>
-					</b:container>
-				</h:form>
+
+				<b:container layout="fluid">
+					<b:panel title="Lista de Protocolos" look="primary">
+						<p:dataTable id="tabela" value="#{visualizarBean.lista}"
+							var="dados" >
+								<p:column style="text-align: center;">
+									<f:facet name="header">Protocolo</f:facet>
+							#{dados.protocolo}
+						</p:column>
+							<p:column style="text-align: center;">
+								<f:facet name="header">Data de Criação</f:facet>
+						#{dados.data}
+					</p:column>
+							<p:column style="text-align: center;">
+								<f:facet name="header">Nome</f:facet>
+						#{dados.nome}
+					</p:column>
+							<p:column style="text-align: center;">
+								<f:facet name="header">Setor de Destino</f:facet>
+						#{dados.sigla}
+					</p:column>
+							<p:column style="text-align: center;">
+								<f:facet name="header">Visualizar</f:facet>
+								<p:commandButton icon="ui-icon-search" onclick="PF('dlgModal').show()" />
+								<p:dialog header="Requerimento" widgetVar="dlgModal" modal="true" resizable="false" >
+									Protocolo:
+									<h:outputText value="#{dados.protocolo}" />
+								</p:dialog>
+							</p:column>
+							<p:column style="text-align: center;">
+								<f:facet name="header">Editar</f:facet>
+								<p:commandButton icon="ui-icon-pencil" onclick="PF('dlgModal').show()" />
+								<p:dialog header="Requerimento" widgetVar="dlgModal" modal="true">
+									<b>Protocolo:</b>
+									<h:outputText value="#{dados.protocolo}" /><br/>
+									<b>Nome do Requerente:</b>
+									<h:outputText value="#{dados.nomerequerente}" />
+									<b>Curso:</b>
+									<h:outputText value="#{dados.curso}" />
+								</p:dialog>
+							</p:column>
+						</p:dataTable>
+					</b:panel>
+				</b:container>
 			</h:form>
 		</b:jumbotron>
 	</b:container>

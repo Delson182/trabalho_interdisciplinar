@@ -1,5 +1,8 @@
 package br.edu.ifms.requerimentos.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -23,7 +26,7 @@ public class Estudante{
 	private String dispositivo;
 	@JoinColumn(name="matricula_fk")
 	@OneToMany(targetEntity = Matricula.class)
-	private Matricula matricula;
+	private List<Matricula> matricula;
 	
 	public Integer getId() {
 		return id;
@@ -79,11 +82,12 @@ public class Estudante{
 	public void setDispositivo(String dispositivo) {
 		this.dispositivo = dispositivo;
 	}
-	public Matricula getMatricula() {
+	public List<Matricula> getMatricula() {
 		return matricula;
 	}
-	public void setMatricula(Matricula matricula) {
+	public void setMatricula(List<Matricula> matricula) {
 		this.matricula = matricula;
 	}
+	
 
 }
