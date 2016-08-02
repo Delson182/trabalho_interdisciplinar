@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://ws.requerimentos.ifms.edu.br" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://ws.requerimentos.ifms.edu.br" xmlns:intf="http://ws.requerimentos.ifms.edu.br" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://ws.requerimentos.ifms.edu.br" xmlns="http://www.w3.org/2001/XMLSchema">
+   <element name="autenticaUsuario">
+    <complexType>
+     <sequence>
+      <element name="siape" type="xsd:string"/>
+      <element name="senha" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="autenticaUsuarioResponse">
+    <complexType>
+     <sequence>
+      <element name="autenticaUsuarioReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="salvaServidor">
+    <complexType>
+     <sequence>
+      <element name="servidor" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="salvaServidorResponse">
+    <complexType>
+     <sequence>
+      <element name="salvaServidorReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="verificaCpf">
+    <complexType>
+     <sequence>
+      <element name="cpf" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="verificaCpfResponse">
+    <complexType>
+     <sequence>
+      <element name="verificaCpfReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getTodosServidores">
+    <complexType/>
+   </element>
+   <element name="getTodosServidoresResponse">
+    <complexType>
+     <sequence>
+      <element name="getTodosServidoresReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getRequerimentoMobile">
+    <complexType>
+     <sequence>
+      <element name="cpf" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getRequerimentoMobileResponse">
+    <complexType>
+     <sequence>
+      <element name="getRequerimentoMobileReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="verificaCpfRequest">
+
+      <wsdl:part element="impl:verificaCpf" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getRequerimentoMobileRequest">
+
+      <wsdl:part element="impl:getRequerimentoMobile" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getTodosServidoresResponse">
+
+      <wsdl:part element="impl:getTodosServidoresResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="autenticaUsuarioResponse">
+
+      <wsdl:part element="impl:autenticaUsuarioResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getTodosServidoresRequest">
+
+      <wsdl:part element="impl:getTodosServidores" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="autenticaUsuarioRequest">
+
+      <wsdl:part element="impl:autenticaUsuario" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="salvaServidorResponse">
+
+      <wsdl:part element="impl:salvaServidorResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="verificaCpfResponse">
+
+      <wsdl:part element="impl:verificaCpfResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getRequerimentoMobileResponse">
+
+      <wsdl:part element="impl:getRequerimentoMobileResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="salvaServidorRequest">
+
+      <wsdl:part element="impl:salvaServidor" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="RequerimentoWS">
+
+      <wsdl:operation name="autenticaUsuario">
+
+         <wsdl:input message="impl:autenticaUsuarioRequest" name="autenticaUsuarioRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:autenticaUsuarioResponse" name="autenticaUsuarioResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="salvaServidor">
+
+         <wsdl:input message="impl:salvaServidorRequest" name="salvaServidorRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:salvaServidorResponse" name="salvaServidorResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="verificaCpf">
+
+         <wsdl:input message="impl:verificaCpfRequest" name="verificaCpfRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:verificaCpfResponse" name="verificaCpfResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getTodosServidores">
+
+         <wsdl:input message="impl:getTodosServidoresRequest" name="getTodosServidoresRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getTodosServidoresResponse" name="getTodosServidoresResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getRequerimentoMobile">
+
+         <wsdl:input message="impl:getRequerimentoMobileRequest" name="getRequerimentoMobileRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getRequerimentoMobileResponse" name="getRequerimentoMobileResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="RequerimentoWSSoapBinding" type="impl:RequerimentoWS">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="autenticaUsuario">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="autenticaUsuarioRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="autenticaUsuarioResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="salvaServidor">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="salvaServidorRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="salvaServidorResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="verificaCpf">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="verificaCpfRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="verificaCpfResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getTodosServidores">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getTodosServidoresRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getTodosServidoresResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getRequerimentoMobile">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getRequerimentoMobileRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getRequerimentoMobileResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="RequerimentoWSService">
+
+      <wsdl:port binding="impl:RequerimentoWSSoapBinding" name="RequerimentoWS">
+
+         <wsdlsoap:address location="http://localhost:8080/TesteBoot/services/RequerimentoWS"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>
