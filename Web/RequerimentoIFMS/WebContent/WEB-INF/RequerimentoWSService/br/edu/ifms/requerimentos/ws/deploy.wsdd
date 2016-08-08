@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Use this file to deploy some handlers/chains and services      --><!-- Two ways to do this:                                           --><!--   java org.apache.axis.client.AdminClient deploy.wsdd          --><!--      after the axis server is running                          --><!-- or                                                             --><!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   --><!--      from the same directory that the Axis engine runs         --><deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from RequerimentoWSService WSDL service -->
+
+  <service name="RequerimentoWS" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://ws.requerimentos.ifms.edu.br"/>
+      <parameter name="wsdlServiceElement" value="RequerimentoWSService"/>
+      <parameter name="schemaQualified" value="http://ws.requerimentos.ifms.edu.br"/>
+      <parameter name="wsdlServicePort" value="RequerimentoWS"/>
+      <parameter name="className" value="br.edu.ifms.requerimentos.ws.RequerimentoWS"/>
+      <parameter name="wsdlPortType" value="RequerimentoWS"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation xmlns:operNS="http://ws.requerimentos.ifms.edu.br" xmlns:retNS="http://ws.requerimentos.ifms.edu.br" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="autenticaUsuario" qname="operNS:autenticaUsuario" returnQName="retNS:autenticaUsuarioReturn" returnType="rtns:string" soapAction="">
+        <parameter xmlns:pns="http://ws.requerimentos.ifms.edu.br" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:siape" type="tns:string"/>
+        <parameter xmlns:pns="http://ws.requerimentos.ifms.edu.br" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:senha" type="tns:string"/>
+      </operation>
+      <operation xmlns:operNS="http://ws.requerimentos.ifms.edu.br" xmlns:retNS="http://ws.requerimentos.ifms.edu.br" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="salvaServidor" qname="operNS:salvaServidor" returnQName="retNS:salvaServidorReturn" returnType="rtns:string" soapAction="">
+        <parameter xmlns:pns="http://ws.requerimentos.ifms.edu.br" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:servidor" type="tns:string"/>
+      </operation>
+      <operation xmlns:operNS="http://ws.requerimentos.ifms.edu.br" xmlns:retNS="http://ws.requerimentos.ifms.edu.br" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="verificaCpf" qname="operNS:verificaCpf" returnQName="retNS:verificaCpfReturn" returnType="rtns:string" soapAction="">
+        <parameter xmlns:pns="http://ws.requerimentos.ifms.edu.br" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:cpf" type="tns:string"/>
+      </operation>
+      <operation xmlns:operNS="http://ws.requerimentos.ifms.edu.br" xmlns:retNS="http://ws.requerimentos.ifms.edu.br" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getTodosServidores" qname="operNS:getTodosServidores" returnQName="retNS:getTodosServidoresReturn" returnType="rtns:string" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://ws.requerimentos.ifms.edu.br" xmlns:retNS="http://ws.requerimentos.ifms.edu.br" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getRequerimentoMobile" qname="operNS:getRequerimentoMobile" returnQName="retNS:getRequerimentoMobileReturn" returnType="rtns:string" soapAction="">
+        <parameter xmlns:pns="http://ws.requerimentos.ifms.edu.br" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:cpf" type="tns:string"/>
+      </operation>
+      <parameter name="allowedMethods" value="getRequerimentoMobile salvaServidor verificaCpf getTodosServidores autenticaUsuario"/>
+
+  </service>
+</deployment>
