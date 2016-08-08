@@ -2,11 +2,13 @@ package br.com.ifms.areq;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                .permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
 
         imgAutentica = (ImageView) findViewById(R.id.imgAutentica);
@@ -58,9 +63,7 @@ public class MainActivity extends AppCompatActivity {
                         cpfValido = true;
                     } else {
                         imgAutentica.setImageResource(R.drawable.check_vermelho);
-                        //Toast.makeText(getApplicationContext(), "CPF Inválido", Toast.LENGTH_SHORT).show();
-                        //TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-                        Toast.makeText(getApplicationContext(), android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "CPF Inválido", Toast.LENGTH_SHORT).show();
                         cpfValido = false;
                     }
                     trocarVerificador = true;
@@ -75,8 +78,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (cpfValido){
-                    Intent it = new Intent(MainActivity.this, ListaRequerimento.class);
-                    startActivity(it);
+                    RequerimentoDAO dados = new RequerimentoDAO();
+                    Log.d("tag", Mascara.desMascara(edtCPF.getText().toString()));
+                    if(dados.consultarAluno(Mascara.desMascara(edtCPF.getText().toString()))) {
+                        Intent it = new Intent(MainActivity.this, ListaRequerimento.class);
+                        it.putExtra("cpf", Mascara.desMascara(edtCPF.getText().toString()));
+                        startActivity(it);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Este CPF não existe na base de dados", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Toast.makeText(getApplicationContext(), "CPF Inválido", Toast.LENGTH_SHORT).show();
                 }

@@ -20,7 +20,7 @@ public class DetalhesRequerimento extends AppCompatActivity {
 
         requerimento = (TextView) findViewById(R.id.textReqDet);
         dataCriacao = (TextView) findViewById(R.id.textDataCriacaoDet);
-        tipoReq = (TextView) findViewById(R.id.textTipoReqDet);
+        //tipoReq = (TextView) findViewById(R.id.textTipoReqDet);
         status = (TextView) findViewById(R.id.textStatusDet);
         edtDetalhamento = (EditText) findViewById(R.id.edtDetelhamento);
 
@@ -28,7 +28,7 @@ public class DetalhesRequerimento extends AppCompatActivity {
 
         requerimento.setText(req.getRequerimento());
         dataCriacao.setText(req.getDataCriacao());
-        tipoReq.setText(req.getTipoReq());
+        //tipoReq.setText(req.getTipoReq());
         status.setText(req.getStatus());
         edtDetalhamento.setText(req.getDetalhamento());
     }
